@@ -14,14 +14,18 @@ paises.forEach(function (item, index, array) {
 for (let x of paises) {
     console.log(x);
 }
-
+// conventional for loop
 var map = new Map([[1, 2], [2, 3]]);
-console.log(map)
+console.log(map);
 
 var object = {
     index: 1,
     name: "carl",
     height: 1.65
 };
-
 console.log(object)
+// map and objects works like key:value as in python's dict
+// everything in js is an object, so map is actually an object
+// Objects accepts only integers, strings and symbols
+// Map accepts objects, arrays and functions, just like python's dict
+
