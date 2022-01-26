@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+
+    <title>Pentaworld</title>
+    <script src='pentaworld.js'></script>
+    <link rel="stylesheet" href="pentastyle.css">
+</head>
+
+<body>
+    <div class='main_window'>
+        <div class='appwindow'>
+            <div class='title'>
+                <p>Titulo da bagaça</p>
+            </div>
+
+            <div class='letreco'>
+                <div class='letter_tries'></div>
+                <div class='keywrapper'>
+                    <div class='submit_buttons'>
+                        <div class='subbutton'>Back</div>
+                        <div class='subbutton'>Try it</div>
+                    </div>
+
+                    <div class='key_row_qwerty'>
+                        <button type="button" class='keybutton' value='Q' onclick="getKeypress()">
+                            <span>Q</span>
+                        </button>
+                        <button type="button" class='keybutton' onclick="getKeypress()">
+                            <span>W</span>
+                        </button>
+                        <button type="button" class='keybutton'>
+                            <span>E</span>
+                        </button>
+                        <button type="button" class='keybutton'>
+                            <span>R</span>
+                        </button>
+                        <button type="button" class='keybutton'>
+                            <span>T</span>
+                        </button>
+                        <button type="button" class='keybutton'>
+                            <span>Y</span>
+                        </button>
+                        <button type="button" class='keybutton'>
+                            <span>U</span>
+                        </button>
+                        <button type="button" class='keybutton'>
+                            <span>I</span>
+                        </button>
+                        <button type="button" class='keybutton'>
+                            <span>O</span>
+                        </button>
+                        <button type="button" class='keybutton'>
+                            <span>P</span>
+                        </button>
+
+                        <!-- <div class='keys' id='keyvalue' onclick="getKeypress()">Q</div>
+                        <div class='keys' id='keyvalue' onclick="getKeypress()">W</div>
+                        <div class='keys' id='keyvalue' onclick="getKeypress()">E</div>
+                        <div class='keys' id='keyvalue' onclick="getKeypress()">R</div>
+                        <div class='keys' id='keyvalue' onclick="getKeypress()">T</div>
+                        <div class='keys' id='keyvalue' onclick="getKeypress()">Y</div>
+                        <div class='keys' id='keyvalue' onclick="getKeypress()">U</div>
+                        <div class='keys' id='keyvalue' onclick="getKeypress()">I</div>
+                        <div class='keys' id='keyvalue' onclick="getKeypress()">O</div>
+                        <div class='keys' id='keyvalue' onclick="getKeypress()">P</div> -->
+
+                    </div>
+                    <div class='key_row_asdfg'>
+                        <div class='keys' id='keyvalue'>A</div>
+                        <div class='keys' id='keyvalue'>S</div>
+                        <div class='keys' id='keyvalue'>D</div>
+                        <div class='keys' id='keyvalue'>F</div>
+                        <div class='keys' id='keyvalue'>G</div>
+                        <div class='keys' id='keyvalue'>H</div>
+                        <div class='keys' id='keyvalue'>J</div>
+                        <div class='keys' id='keyvalue'>K</div>
+                        <div class='keys' id='keyvalue'>L</div>
+                    </div>
+                    <div class='key_row_zxcvb'>
+                        <div class='keys' id='keyvalue'>Z</div>
+                        <div class='keys' id='keyvalue'>X</div>
+                        <div class='keys' id='keyvalue'>C</div>
+                        <div class='keys' id='keyvalue'>V</div>
+                        <div class='keys' id='keyvalue'>B</div>
+                        <div class='keys' id='keyvalue'>N</div>
+                        <div class='keys' id='keyvalue'>M</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+</body>
+
+</html>
