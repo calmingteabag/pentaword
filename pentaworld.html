@@ -24,11 +24,11 @@
                 <div class='keywrapper'>
                     <div class='submit_buttons'>
                         <div class='subbutton'>Back</div>
-                        <div class='subbutton'>Try it</div>
+                        <div class='subbutton' onclick=checkWord()>Try it</div>
                     </div>
 
                     <div class='key_row_qwerty'>
-                        <button type="button" class='keybutton' value='Q' onclick="getKeypress()">
+                        <button type="button" id='qbutton' class='keybutton' value='Q' onclick="getKeypress()">
                             <span>Q</span>
                         </button>
                         <button type="button" class='keybutton' onclick="getKeypress()">
@@ -91,9 +91,14 @@
                         <div class='keys' id='keyvalue'>N</div>
                         <div class='keys' id='keyvalue'>M</div>
                     </div>
+                    <p id='test'>
+
+                    </p>
+                    <p id='valor'>
+
+                    </p>
                 </div>
             </div>
-
         </div>
 </body>
 
