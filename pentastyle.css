@@ -110,7 +110,7 @@ div.subbutton:hover {
     background-color: crimson;
 }
 
-div.key_row_qwerty {
+div.key_row {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -133,24 +133,6 @@ button.keybutton {
 button.keybutton:hover {
     background-color: rgb(0, 145, 17);
     color: white;
-}
-
-div.key_row_asdfg {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 5px;
-    padding-left: 5px;
-    padding-right: 10px;
-}
-
-div.key_row_zxcvb {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 5px;
-    padding-left: 5px;
-    padding-right: 10px;
 }
 
 div.keys {

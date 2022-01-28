@@ -21,7 +21,7 @@
 
             <div class='letreco'>
                 <div class='letter_tries'>
-                    <div class='row_try'>
+                    <div class='row_try' id=0>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
@@ -74,16 +74,10 @@
                         </div>
                     </div>
 
-                    <div class='key_row_qwerty'>
-                        <button type="button" class='keybutton'>
-                            <span>Q</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>W</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>E</span>
-                        </button>
+                    <div class='key_row'>
+                        <button type="button" class='keybutton' onclick=keytest(0)>Q</button>
+                        <button type="button" class='keybutton' onclick=keytest(1)>W</button>
+                        <button type="button" class='keybutton' onclick=getKeyPress(2)>E</button>
                         <button type="button" class='keybutton'>
                             <span>R</span>
                         </button>
@@ -107,7 +101,7 @@
                         </button>
 
                     </div>
-                    <div class='key_row_asdfg'>
+                    <div class='key_row'>
                         <button type="button" class='keybutton'>
                             <span>A</span>
                         </button>
@@ -136,7 +130,7 @@
                             <span>L</span>
                         </button>
                     </div>
-                    <div class='key_row_zxcvb'>
+                    <div class='key_row'>
                         <button type="button" class='keybutton'>
                             <span>Z</span>
                         </button>
