@@ -21,42 +21,42 @@
 
             <div class='letreco'>
                 <div class='letter_tries'>
-                    <div class='row_try' id=0>
+                    <div class='row_try' id=row_0>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
                     </div>
-                    <div class='row_try'>
+                    <div class='row_try' id=row_1>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
                     </div>
-                    <div class='row_try'>
+                    <div class='row_try' id=row_2>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
                     </div>
-                    <div class='row_try'>
+                    <div class='row_try' id=row_3>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
                     </div>
-                    <div class='row_try'>
+                    <div class='row_try' id=row_4>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
                     </div>
-                    <div class='row_try'>
+                    <div class='row_try' id=row_5>
                         <div class='char'></div>
                         <div class='char'></div>
                         <div class='char'></div>
@@ -64,101 +64,44 @@
                         <div class='char'></div>
                     </div>
                 </div>
+                <div class='submit_buttons'>
+                    <button type="button" class='subbutton'>Back</button>
+                    <button type="button" class='subbutton'>Try it</button>
+                </div>
+
                 <div class='keywrapper'>
-                    <div class='submit_buttons'>
-                        <div class='subbutton'>
-                            <span>Back</span>
-                        </div>
-                        <div class='subbutton' onclick=checkWord()>
-                            <span>Try it</span>
-                        </div>
-                    </div>
-
                     <div class='key_row'>
-                        <button type="button" class='keybutton' onclick=keytest(0)>Q</button>
-                        <button type="button" class='keybutton' onclick=keytest(1)>W</button>
-                        <button type="button" class='keybutton' onclick=getKeyPress(2)>E</button>
-                        <button type="button" class='keybutton'>
-                            <span>R</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>T</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>Y</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>U</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>I</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>O</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>P</span>
-                        </button>
-
+                        <button type="button" class='keybutton' id=key_0>Q</button>
+                        <button type="button" class='keybutton' id=key_1>W</button>
+                        <button type="button" class='keybutton' id=key_2>E</button>
+                        <button type="button" class='keybutton' id=key_3>R</button>
+                        <button type="button" class='keybutton' id=key_4>T</button>
+                        <button type="button" class='keybutton' id=key_5>Y</button>
+                        <button type="button" class='keybutton' id=key_6>U</button>
+                        <button type="button" class='keybutton' id=key_7>I</button>
+                        <button type="button" class='keybutton' id=key_8>O</button>
+                        <button type="button" class='keybutton' id=key_9>P</button>
                     </div>
                     <div class='key_row'>
-                        <button type="button" class='keybutton'>
-                            <span>A</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>S</span>
-                        </button>
-                        <button type=" button" class='keybutton'>
-                            <span>D</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>F</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>G</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>H</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>J</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>K</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>L</span>
-                        </button>
+                        <button type="button" class='keybutton' id=key_10>A</button>
+                        <button type="button" class='keybutton' id=key_11>S</button>
+                        <button type="button" class='keybutton' id=key_12>D</button>
+                        <button type="button" class='keybutton' id=key_13>F</button>
+                        <button type="button" class='keybutton' id=key_14>G</button>
+                        <button type="button" class='keybutton' id=key_15>H</button>
+                        <button type="button" class='keybutton' id=key_16>J</button>
+                        <button type="button" class='keybutton' id=key_17>K</button>
+                        <button type="button" class='keybutton' id=key_18>L</button>
                     </div>
                     <div class='key_row'>
-                        <button type="button" class='keybutton'>
-                            <span>Z</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>X</span>
-                        </button>
-                        <button type=" button" class='keybutton'>
-                            <span>C</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>V</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>B</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>N</span>
-                        </button>
-                        <button type="button" class='keybutton'>
-                            <span>M</span>
-                        </button>
+                        <button type="button" class='keybutton' id=key_19>Z</button>
+                        <button type="button" class='keybutton' id=key_20>X</button>
+                        <button type="button" class='keybutton' id=key_21>C</button>
+                        <button type="button" class='keybutton' id=key_22>V</button>
+                        <button type="button" class='keybutton' id=key_23>B</button>
+                        <button type="button" class='keybutton' id=key_24>N</button>
+                        <button type="button" class='keybutton' id=key_25>M</button>
                     </div>
-                    <p id='test'>
-
-                    </p>
-                    <p id='valor'>
-
-                    </p>
                 </div>
             </div>
         </div>

@@ -1,36 +1,37 @@
 body {
     height: 100vh;
-    background-color: rgb(2, 23, 55);
+    background-color: black;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0px;
+    margin: 0px;
+    border-width: 0px;
 }
 
 
 div.main_window {
-    border-style: solid;
-    border-color: rgb(236, 72, 72);
-    border-width: 2px;
     width: 45%;
-    height: 95%;
-    background-color: rgb(5, 109, 113);
+    height: 95vh;
     display: flex;
     flex-direction: column;
+    padding: 0px;
+    margin: 0px;
 }
 
-@media screen and (max-width: 800px) {
+@media only screen and (max-width: 900px) {
     div.main_window {
-        width: 95%;
-        height: 95%;
-
+        width: 100%;
+        height: 100%;
     }
 }
 
 div.appwindow {
     display: flex;
     flex-direction: column;
+    height: 95%;
     gap: 10px;
-    padding: 10px;
+    padding: 0px;
 }
 
 div.title {
@@ -39,12 +40,15 @@ div.title {
     border-width: 2px;
     height: auto;
     background-color: cornsilk;
+    padding: 0px;
+    margin: 0px;
 }
 
 div.letreco {
     border-style: solid;
     border-color: rgb(236, 72, 72);
     border-width: 2px;
+    height: 90%;
     background-color: cornsilk;
     display: flex;
     flex-direction: column;
@@ -53,60 +57,102 @@ div.letreco {
 div.letter_tries {
     display: flex;
     flex-direction: column;
-    height: 60%;
-    padding-top: 5vw;
-    padding-bottom: 5vw;
+    padding-top: 2vw;
+    padding-bottom: 2vw;
     gap: 1vw;
 }
 
+@media only screen and (max-width: 900px) {
+    div.letter_tries {
+        gap: 2vw;
+    }
+}
 
 div.row_try {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 1vw;
+    gap: 0.5vw;
+}
+@media only screen and (max-width: 900px) {
+    div.row_try {
+        gap: 1.5vw;
+    }
+}
+
+.active_row {
+    border-style: solid;
+    border-color: rgb(84, 0, 0);
 }
 
 div.char {
     border-style: solid;
     border-radius: 15%;
     border-width: 2px;
-    border-color: lime;
-    width: 6vw;
-    height: 6vw;
+    border-color: rgb(64, 0, 109);
+    width: 3vw;
+    height: 3vw;
     text-align: center;
     vertical-align: middle;
 }
+
+@media only screen and (max-width: 900px) {
+    div.char {
+        width: 14vw;
+        height:14vw;
+    }
+}
+
 
 div.keywrapper {
     display: flex;
     flex-direction: column;
     height: auto;
-    gap: 10px;
-    padding-bottom: 10px;
+    gap: 1vw;
 }
-
+@media only screen and (max-width: 900px) {
+    div.keywrapper {
+        gap: 4vw;
+    }
+}
 div.submit_buttons {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 2vw;
+    padding: 0.5vw;
 }
 
-div.subbutton {
+@media only screen and (max-width: 900px) {
+    div.submit_buttons {
+        padding: 5vw;
+    }
+}
+
+button.subbutton {
     border-style: solid;
     border-radius: 10%;
     border-width: 2px;
     border-color: lime;
-    width: 90px;
-    height: 35px;
+    width: 10vw;
+    height: 2.5vw;
     text-align: center;
     vertical-align: middle;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 1.5vw;
 }
 
-div.subbutton:hover {
+@media only screen and (max-width: 900px) {
+    button.subbutton {
+        width: 30vw;
+        height: 10vw;
+        font-size: 5.5vw;
+    }
+}
+
+button.subbutton:hover {
     background-color: crimson;
 }
 
@@ -114,38 +160,38 @@ div.key_row {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 5px;
-    padding-left: 5px;
-    padding-right: 10px;
+    gap: 0.3vw;
+}
+
+@media only screen and (max-width: 900px) {
+    div.key_row {
+        gap: 1vw;
+    }
 }
 
 button.keybutton {
     border-style: solid;
     border-radius: 15%;
     border-width: 2px;
-    border-color: lime;
-    width: 6vw;
-    height: 6vw;
+    border-color: rgb(255, 170, 0);
+    width: 3vw;
+    height: 2.5vw;
     text-align: center;
     vertical-align: middle;
+    margin: 0px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 1.2vw;
+}
+
+@media only screen and (max-width: 900px) {
+    button.keybutton {
+        width: 9vw;
+        height: 9vw;
+        font-size: 4vw;
+    }
 }
 
 button.keybutton:hover {
-    background-color: rgb(0, 145, 17);
+    background-color: rgb(200, 0, 143);
     color: white;
-}
-
-div.keys {
-    border-style: solid;
-    border-radius: 15%;
-    border-width: 2px;
-    border-color: lime;
-    width: 10%;
-    height: 100%;
-    text-align: center;
-    vertical-align: middle;
-}
-
-div.keys:hover {
-    background-color: crimson;
 }

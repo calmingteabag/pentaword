@@ -20,45 +20,88 @@ steps:
 // const word = 'panda';
 let arr = '';
 
-// function to get what key pressed
-function getKeyPress(keynum) {
-    const getelements = document.getElementsByClassName('keybutton');
-    let elementvalue = getelements[keynum].innerHTML;
+/* 
+This function works to get what key was pressed (for now)
 
-    console.log(elementvalue)
-    return elementvalue
+Maybe this function will have to handle everthing, from getting the key to populating
+display.
+
+What I have in mind after getting the key:
+First this program needs to know which row to populate. There are 6 rows, all with
+the same class='row-try' attribute, so the problem is how does it know which one it is
+working on?
+
+HM WAIT, MAYBE...
+we do something like
+
+const allrows = document.getElementsByClassName('row_try');
+const allchars = document.getElementsByClassName('char');
+
+for (let currentrow of allrows) {
+    for (let i =0; i < allchars.length;)
+
+    execute code to fill current "tile" with key
+    holy fuck this is a mess...
+}
+
+let try something else
+
+maybe we should modify an attribute and set it to active, so we can work on it?
+
+let attribute = document.getElementbyId(`row${num}`)
+*/
+function getKeyPress(current) {
+    const current_key = document.getElementById(current);
+    const current_char = current_key.textContent;
+
+    console.log(`You pressed this key: ${current_char}`);
 };
 
-// function keytest(arg) {
-//     let x = getKeyPress(arg)
-//     console.log(x)
-// }
+// add event listener to clickable letters
+// this function will function as onclick=function()
+function clickWait() {
+    let cl_wait = document.getElementsByClassName('keybutton');
+    for (let clickelem of cl_wait) {
+        let currentattb = clickelem.getAttribute('id');
+        clickelem.addEventListener("click", function () { getKeyPress(currentattb) }, false);
+    }
+};
+// added this line so function clickwait will work
+document.addEventListener("DOMContentLoaded", clickWait, false);
+
 
 // funciton to add pressed key to array
-function KeytoArr() {
-    key = getKeyPress(keynum);
-    if (arr.length < 5) {
-        arr += key;
-    }
-}
+function KeytoArr(key) {
+    arr += key;
+};
 
 // function to populate the display
-function populateDisplay() {
-    key = getKeyPress();
+function populateDisplay(keytofill, keypos) {
 
-}
+    const rowList = document.getElementsByClassName('row_try')
+    let rowEle = document.querySelector("")
+    console.log(rowList)
+    document.getElementsByClassName('row_try')[1].class = "row_try active_row";
+
+};
 
 
 // These are the main functions
-function processKeypress() {
-    getKeyPress();
-    addKeytoArr();
-    populateDisplay();
-}
+function processKeypress(keypos) {
+    let pressedKey = getKeyPress(keypos);
+    let pos = 0
+
+    if (arr.length < 5) {
+        KeytoArr(pressedKey);
+        populateDisplay(pressedKey, pos);
+        pos++;
+    }
+};
+
 
 function compareResult() {
 
-}
+};
 
 
 
@@ -78,14 +121,3 @@ function checkWord() {
     console.log(result)
 };
 
-// function getKeypress() {
-//     const getelements = document.getElementsByClassName('keybutton');
-//     let elementvalue = getelements[0].attributes[3].value;
-//     document.getElementById('test').innerHTML = elementvalue;
-
-//     if (arr.length < 5) {
-//         arr += elementvalue;
-//     } else {
-//         document.getElementById('valor').innerHTML = arr;
-//     }
-// };
