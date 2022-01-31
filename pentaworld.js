@@ -1,5 +1,5 @@
 // Let's assume this as a daily word to check
-const word = 'panda'
+
 
 /*
 First we need to populate the display and for that a single function
@@ -18,7 +18,7 @@ steps:
 
 
 // const word = 'panda';
-let arr = '';
+
 
 /* 
 This function works to get what key was pressed (for now)
@@ -50,65 +50,79 @@ maybe we should modify an attribute and set it to active, so we can work on it?
 
 let attribute = document.getElementbyId(`row${num}`)
 */
+let item_pos = 0;
+let active_row = 0;
+let arr = '';
+const word = 'panda';
+
 function getKeyPress(current) {
-    const current_key = document.getElementById(current);
-    const current_char = current_key.textContent;
+    const current_key = document.getElementById(current)
+    const current_char = current_key.textContent
 
-    console.log(`You pressed this key: ${current_char}`);
-};
+    console.log(`You pressed this key: ${current_char}`)
 
-// add event listener to clickable letters
-// this function will function as onclick=function()
-function clickWait() {
-    let cl_wait = document.getElementsByClassName('keybutton');
-    for (let clickelem of cl_wait) {
-        let currentattb = clickelem.getAttribute('id');
-        clickelem.addEventListener("click", function () { getKeyPress(currentattb) }, false);
-    }
-};
-// added this line so function clickwait will work
-document.addEventListener("DOMContentLoaded", clickWait, false);
+    let activate_row = document.getElementById(`row_${active_row}`)
+    activate_row.setAttribute('row_class', 'row_class active_row')
 
-
-// funciton to add pressed key to array
-function KeytoArr(key) {
-    arr += key;
-};
-
-// function to populate the display
-function populateDisplay(keytofill, keypos) {
-
-    const rowList = document.getElementsByClassName('row_try')
-    let rowEle = document.querySelector("")
-    console.log(rowList)
-    document.getElementsByClassName('row_try')[1].class = "row_try active_row";
-
+    if (item_pos < 5) {
+        document.getElementsByClassName('char')[item_pos].innerHTML = `<span class='charspan'>${current_char}</span>`;
+        item_pos++
+        arr += current_char
+    };
 };
 
 
-// These are the main functions
-function processKeypress(keypos) {
-    let pressedKey = getKeyPress(keypos);
-    let pos = 0
+// This function will add a eventListener to all CHRACTER keys. Works
+// as if onclick=function() is set to each element
+function addCharListener() {
+    let btn_elem = document.getElementsByClassName('keybutton')
 
-    if (arr.length < 5) {
-        KeytoArr(pressedKey);
-        populateDisplay(pressedKey, pos);
-        pos++;
-    }
+    for (let elem of btn_elem) {
+        let current_attb = elem.getAttribute('id')
+        elem.addEventListener("click", function () { getKeyPress(current_attb) }, false)
+    };
 };
 
-
-function compareResult() {
-
+//Another function but to add eventListener to DELETE chracters previously filled
+function delCharListener() {
+    let del_btn = document.getElementById('del_elem')
+    del_btn.addEventListener("click", delChar, false)
 };
 
+// This one adds an eventListener to CHECK words
+function checkWordListener() {
+    let sub_btn = document.getElementById('sub_elem')
+    sub_btn.addEventListener("click", subChar, false)
+};
+
+// Listeners added to document
+document.addEventListener("DOMContentLoaded", addCharListener, false);
+document.addEventListener("DOMContentLoaded", delCharListener, false);
+document.addEventListener("DOMContentLoaded", checkWordListener, false);
+
+// This function will check chracters and delete them
+function delChar() {
+    let current_pos = item_pos
+    let current_row = active_row
+
+    if (item_pos > 0) {
+        let curr_row = document.getElementsByClassName('row_try')[current_row]
+        let curr_char = curr_row.getElementsByClassName('char')[current_pos - 1]
+        curr_char.innerHTML = ''
+        item_pos--
+    };
+};
+
+function subChar() {
+    console.log('Tow subandu!')
+};
 
 
 
 function checkWord() {
     let index = 0
     let result = ''
+
     for (let char of arr) {
         if (word.includes(char)) {
             result += 'green';

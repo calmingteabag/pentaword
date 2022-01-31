@@ -1,6 +1,6 @@
 body {
     height: 100vh;
-    background-color: black;
+    background-color: rgb(63, 63, 63);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,27 +29,42 @@ div.main_window {
 div.appwindow {
     display: flex;
     flex-direction: column;
-    height: 95%;
+    height: 100%;
     gap: 10px;
     padding: 0px;
 }
 
 div.title {
     border-style: solid;
-    border-color: rgb(236, 72, 72);
-    border-width: 2px;
+    border-color: rgb(154, 154, 154);
+    border-width: 1px;
     height: auto;
-    background-color: cornsilk;
+    background-color: rgb(15, 15, 15);
     padding: 0px;
     margin: 0px;
+    color:rgb(255, 42, 184);
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 2vw;
+    text-align: center;
+    padding-top:0.3vw;
+    padding-bottom:0.3vw;
+}
+
+@media only screen and (max-width: 900px) {
+    div.title {
+        font-size: 7vw;
+        padding-top:0.3vw;
+        padding-bottom:0.3vw;
+    }
 }
 
 div.letreco {
     border-style: solid;
-    border-color: rgb(236, 72, 72);
-    border-width: 2px;
+    border-color: rgb(154, 154, 154);
+    border-width: 1px;
     height: 90%;
-    background-color: cornsilk;
+    background-color: rgb(15, 15, 15);
     display: flex;
     flex-direction: column;
 }
@@ -88,19 +103,30 @@ div.row_try {
 
 div.char {
     border-style: solid;
-    border-radius: 15%;
+    border-radius: 5%;
     border-width: 2px;
-    border-color: rgb(64, 0, 109);
+    border-color: rgba(186, 89, 255, 0.257);
     width: 3vw;
     height: 3vw;
-    text-align: center;
+    font-size: 2vw;
+    color:rgb(255, 102, 229);
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
     vertical-align: middle;
+    text-align: center;
+}
+
+span.charspan {
+    vertical-align: middle;
+    align-items: center;
+    text-align:center;
 }
 
 @media only screen and (max-width: 900px) {
     div.char {
         width: 14vw;
         height:14vw;
+        font-size: 10vw;
     }
 }
 
@@ -133,13 +159,14 @@ div.submit_buttons {
 
 button.subbutton {
     border-style: solid;
-    border-radius: 10%;
-    border-width: 2px;
-    border-color: lime;
+    border-width: 1px;
+    border-color: rgb(119, 0, 130);
     width: 10vw;
     height: 2.5vw;
     text-align: center;
     vertical-align: middle;
+    background-color: rgb(56, 0, 61);
+    color:rgb(255, 143, 251);
     font-family:Arial, Helvetica, sans-serif;
     font-size: 1.5vw;
 }
@@ -154,6 +181,8 @@ button.subbutton {
 
 button.subbutton:hover {
     background-color: crimson;
+    cursor: pointer;
+    color: white;
 }
 
 div.key_row {
@@ -194,4 +223,5 @@ button.keybutton {
 button.keybutton:hover {
     background-color: rgb(200, 0, 143);
     color: white;
+    cursor: pointer;
 }
