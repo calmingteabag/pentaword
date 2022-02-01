@@ -52,7 +52,7 @@ let attribute = document.getElementbyId(`row${num}`)
 */
 let item_pos = 0;
 let active_row = 0;
-let arr = '';
+let arr = [];
 const word = 'panda';
 
 function getKeyPress(current) {
@@ -61,13 +61,15 @@ function getKeyPress(current) {
 
     console.log(`You pressed this key: ${current_char}`)
 
-    let activate_row = document.getElementById(`row_${active_row}`)
-    activate_row.setAttribute('row_class', 'row_class active_row')
-
     if (item_pos < 5) {
-        document.getElementsByClassName('char')[item_pos].innerHTML = `<span class='charspan'>${current_char}</span>`;
+        // What we need to do is populate only the current row
+        let rowlist = document.getElementsByClassName('row_try')[active_row];
+        let curr_char = rowlist.children;
+
+        // document.getElementsByClassName('char')[item_pos].innerHTML = `<span class='charspan'>${current_char}</span>`;
+        curr_char[item_pos].innerHTML = `<span class='charspan'>${current_char}</span>`
         item_pos++
-        arr += current_char
+        arr.push(current_char)
     };
 };
 
@@ -92,7 +94,7 @@ function delCharListener() {
 // This one adds an eventListener to CHECK words
 function checkWordListener() {
     let sub_btn = document.getElementById('sub_elem')
-    sub_btn.addEventListener("click", subChar, false)
+    sub_btn.addEventListener("click", subWord, false)
 };
 
 // Listeners added to document
@@ -109,29 +111,53 @@ function delChar() {
         let curr_row = document.getElementsByClassName('row_try')[current_row]
         let curr_char = curr_row.getElementsByClassName('char')[current_pos - 1]
         curr_char.innerHTML = ''
+        arr.pop()
         item_pos--
     };
 };
 
-function subChar() {
-    console.log('Tow subandu!')
+function subWord() {
+
+    if (item_pos == 5) {
+        console.log('lez do it')
+        console.log(arr)
+        checkWord()
+        active_row += 1
+        item_pos = 0
+        arr = []
+
+        // need to stop the game if we are on the the last row
+
+    } else {
+        console.log('ehh nope')
+        console.log(arr)
+
+    };
 };
 
 
-
+// Need a way now to check input array to word
 function checkWord() {
-    let index = 0
-    let result = ''
+    let check_pos = 0
+    let check_word = word.toUpperCase()
 
     for (let char of arr) {
-        if (word.includes(char)) {
-            result += 'green';
+        // console.log(char)
+        // console.log(typeof (char))
+        // console.log(typeof (word[check_pos]))
+        if (char == check_word[check_pos]) {
+            console.log('green')
         } else {
-            result += 'red';
+            console.log('red')
         }
     };
 
-    document.getElementById('test').innerHTML = result;
-    console.log(result)
+    // for (let char of arr) {
+    //     if (word.includes(char)) {
+    //         result += 'green';
+    //     } else {
+    //         result += 'red';
+    //     }
+    //};
 };
 
