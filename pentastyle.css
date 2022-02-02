@@ -119,6 +119,7 @@ div.char {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
 }
+
 @keyframes glow_lighten {
     from {
         border-color: rgb(6, 77, 0);
@@ -129,18 +130,6 @@ div.char {
         color: rgb(2, 255, 23);
     }
 }
-
-@keyframes glow_darken {
-    from {
-        border-color:rgb(2, 255, 23);
-        color: rgb(2, 255, 23);
-    }
-    to {
-        border-color: rgb(6, 77, 0);
-        color: rgb(6, 77, 0);
-    }
-}
-
 
 span.charspan {
     vertical-align: middle;

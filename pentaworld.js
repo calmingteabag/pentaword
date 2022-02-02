@@ -120,31 +120,22 @@ function delChar() {
 
 // Decided on my own to separate the tracking part (how many tries) from the
 // word checking part
+// Need a way to exit before exausting attempts
 function subWord() {
 
-    if (active_row < 6) {
-        if (item_pos == 5) {
-            checkWord()
-            active_row += 1
-            item_pos = 0
-            arr = []
-        }
+    if (active_row < 6 && item_pos == 5) {
+        checkWord()
+        active_row += 1
+        item_pos = 0
+        arr = []
     } else {
-        window.alert('Game Finished')
-        // Need a code to show user that he didn't found the correct
-        // word after exausting all tries, aka, if current row == 6. This
-        // 'exit' route will only trigger if checkWord() didn't trigger any
-        // correct word.
-        // Also, show stats and prompt user to try again
-    };
+        window.alert('Game ended')
+    }
 };
 
 
 // This function will do the heavy lifting, aka comparison
 // Need to exit the game if correct word is found on Nth try
-// Still need to code the fancy stuff
-// AAAAAAAAAAAAAAAAND I JUST FOUND OUT IT DOESN'T WORK.....fucking great
-
 function checkWord() {
     let check_pos = 0
     let daily_word_arr = word.toUpperCase().split('')
@@ -182,5 +173,5 @@ function checkWord() {
         }
     };
 
-    console.log(result_str)
+    return result_str
 };
