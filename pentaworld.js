@@ -150,6 +150,7 @@ function checkWord() {
     let daily_word_arr = word.toUpperCase().split('')
     let result_str = ''
 
+
     for (let char of arr) {
 
         if (daily_word_arr.includes(char) && char == daily_word_arr[check_pos]) {
@@ -157,6 +158,7 @@ function checkWord() {
             let current_letter = check_row.children[check_pos];
             current_letter.style.color = 'green';
             current_letter.style.borderColor = '#00FF00';
+            current_letter.style.animation = 'glow_lighten 1.5s ease-in-out infinite alternate'
 
 
             check_pos++
