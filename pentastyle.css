@@ -35,18 +35,20 @@ div.appwindow {
 }
 
 div.title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-style: solid;
     border-color: rgb(154, 154, 154);
     border-width: 1px;
-    height: auto;
+    height: 4vw;
     background-color: rgb(15, 15, 15);
     padding: 0px;
     margin: 0px;
     color:rgb(255, 42, 184);
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
-    font-size: 2vw;
-    text-align: center;
+    font-size: 3vw;
     padding-top:0.3vw;
     padding-bottom:0.3vw;
 }
@@ -56,6 +58,7 @@ div.title {
         font-size: 7vw;
         padding-top:0.3vw;
         padding-bottom:0.3vw;
+        height: 10vw;
     }
 }
 
@@ -102,6 +105,9 @@ div.row_try {
 }
 
 div.char {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-style: solid;
     border-radius: 5%;
     border-width: 2px;
@@ -112,8 +118,6 @@ div.char {
     color:rgb(255, 102, 229);
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
-    vertical-align: middle;
-    text-align: center;
 }
 
 span.charspan {
@@ -135,7 +139,8 @@ div.keywrapper {
     display: flex;
     flex-direction: column;
     height: auto;
-    gap: 1vw;
+    gap: 0.6vw;
+    padding-top:1.5vw;
 }
 @media only screen and (max-width: 900px) {
     div.keywrapper {
@@ -189,7 +194,7 @@ div.key_row {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 0.3vw;
+    gap: 0.5vw;
 }
 
 @media only screen and (max-width: 900px) {
@@ -203,8 +208,8 @@ button.keybutton {
     border-radius: 15%;
     border-width: 2px;
     border-color: rgb(255, 170, 0);
-    width: 3vw;
-    height: 2.5vw;
+    width: 2.4vw;
+    height: 2.2vw;
     text-align: center;
     vertical-align: middle;
     margin: 0px;
@@ -214,9 +219,9 @@ button.keybutton {
 
 @media only screen and (max-width: 900px) {
     button.keybutton {
-        width: 9vw;
-        height: 9vw;
-        font-size: 4vw;
+        width: 8vw;
+        height: 7.5vw;
+        font-size: 5vw;
     }
 }
 

@@ -55,6 +55,8 @@ let active_row = 0;
 let arr = [];
 const word = 'panda';
 
+
+// As the user presses key, current key is added to display
 function getKeyPress(current) {
     const current_key = document.getElementById(current)
     const current_char = current_key.textContent
@@ -116,48 +118,67 @@ function delChar() {
     };
 };
 
+// Decided on my own to separate the tracking part (how many tries) from the
+// word checking part
 function subWord() {
 
-    if (item_pos == 5) {
-        console.log('lez do it')
-        console.log(arr)
-        checkWord()
-        active_row += 1
-        item_pos = 0
-        arr = []
-
-        // need to stop the game if we are on the the last row
-
+    if (active_row < 6) {
+        if (item_pos == 5) {
+            checkWord()
+            active_row += 1
+            item_pos = 0
+            arr = []
+        }
     } else {
-        console.log('ehh nope')
-        console.log(arr)
-
+        window.alert('Game Finished')
+        // Need a code to show user that he didn't found the correct
+        // word after exausting all tries, aka, if current row == 6. This
+        // 'exit' route will only trigger if checkWord() didn't trigger any
+        // correct word.
+        // Also, show stats and prompt user to try again
     };
 };
 
 
-// Need a way now to check input array to word
+// This function will do the heavy lifting, aka comparison
+// Need to exit the game if correct word is found on Nth try
+// Still need to code the fancy stuff
+// AAAAAAAAAAAAAAAAND I JUST FOUND OUT IT DOESN'T WORK.....fucking great
+
 function checkWord() {
     let check_pos = 0
-    let check_word = word.toUpperCase()
+    let daily_word_arr = word.toUpperCase().split('')
+    let result_str = ''
 
     for (let char of arr) {
-        // console.log(char)
-        // console.log(typeof (char))
-        // console.log(typeof (word[check_pos]))
-        if (char == check_word[check_pos]) {
-            console.log('green')
+
+        if (daily_word_arr.includes(char) && char == daily_word_arr[check_pos]) {
+            let check_row = document.getElementsByClassName('row_try')[active_row]
+            let current_letter = check_row.children[check_pos];
+            current_letter.style.color = 'green';
+            current_letter.style.borderColor = '#00FF00';
+
+
+            check_pos++
+            result_str += 'green '
+        } else if (daily_word_arr.includes(char) && char != daily_word_arr[check_pos]) {
+            let check_row = document.getElementsByClassName('row_try')[active_row]
+            let current_letter = check_row.children[check_pos];
+            current_letter.style.color = 'yellow'
+            current_letter.style.borderColor = '#FFFF00';
+
+            check_pos++
+            result_str += 'yellow '
         } else {
-            console.log('red')
+            let check_row = document.getElementsByClassName('row_try')[active_row]
+            let current_letter = check_row.children[check_pos];
+            current_letter.style.color = 'red'
+            current_letter.style.borderColor = '#FF0000';
+
+            check_pos++
+            result_str += 'red '
         }
     };
 
-    // for (let char of arr) {
-    //     if (word.includes(char)) {
-    //         result += 'green';
-    //     } else {
-    //         result += 'red';
-    //     }
-    //};
+    console.log(result_str)
 };
-
