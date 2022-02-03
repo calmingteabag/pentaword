@@ -76,6 +76,7 @@ function getKeyPress(current) {
 };
 
 
+
 // This function will add a eventListener to all CHRACTER keys. Works
 // as if onclick=function() is set to each element
 function addCharListener() {
@@ -106,12 +107,10 @@ document.addEventListener("DOMContentLoaded", checkWordListener, false);
 
 // This function will check chracters and delete them
 function delChar() {
-    let current_pos = item_pos
-    let current_row = active_row
 
     if (item_pos > 0) {
-        let curr_row = document.getElementsByClassName('row_try')[current_row]
-        let curr_char = curr_row.getElementsByClassName('char')[current_pos - 1]
+        let curr_row = document.getElementsByClassName('row_try')[active_row]
+        let curr_char = curr_row.getElementsByClassName('char')[item_pos - 1]
         curr_char.innerHTML = ''
         arr.pop()
         item_pos--
@@ -119,23 +118,27 @@ function delChar() {
 };
 
 // Decided on my own to separate the tracking part (how many tries) from the
-// word checking part
+// word checking part to declutter stuff
 // Need a way to exit before exausting attempts
 function subWord() {
 
     if (active_row < 6 && item_pos == 5) {
         checkWord()
+
+        if (arr == word.toUpperCase().split('')) {
+            windows.alert('Game ended')
+        }
+
         active_row += 1
         item_pos = 0
         arr = []
     } else {
-        window.alert('Game ended')
+        window.alert('Game ended for real')
     }
 };
 
 
 // This function will do the heavy lifting, aka comparison
-// Need to exit the game if correct word is found on Nth try
 function checkWord() {
     let check_pos = 0
     let daily_word_arr = word.toUpperCase().split('')
@@ -149,6 +152,8 @@ function checkWord() {
             let current_letter = check_row.children[check_pos];
             current_letter.style.color = 'green';
             current_letter.style.borderColor = '#00FF00';
+            // would be nice if this effect worked only on current row
+            // will think about it later
             current_letter.style.animation = 'glow_lighten 1.5s ease-in-out infinite alternate'
 
 
@@ -174,4 +179,43 @@ function checkWord() {
     };
 
     return result_str
+};
+
+// Key event listener
+// Will do the same process as getKeypress
+// As the user types a word, needs to limit inputs to only characters
+// and probably need separate events to backspace and enter
+
+document.addEventListener('keyup', keyPressAlpha);
+
+function keyPressAlpha(usrkey) {
+    console.log(`You pressed this key: ${usrkey.key}`)
+    console.log(`You pressed the ${usrkey.code} keycode`)
+
+    if (item_pos < 5 && isAlpha(usrkey.key) == true && usrkey.key != '') {
+        let rowlist = document.getElementsByClassName('row_try')[active_row];
+        let curr_char = rowlist.children;
+
+        curr_char[item_pos].innerHTML = `<span class='charspan'>${usrkey.key.toUpperCase()}</span>`
+        item_pos++
+        arr.push(usrkey.key.toUpperCase())
+
+    } else if (item_pos <= 5 && usrkey.key == 'Backspace') {
+        delChar()
+
+    } else if (item_pos == 5 && usrkey.key == 'Enter') {
+        subWord()
+    };
+};
+
+// since there is no .isalpha() like on python, we need to somewhat create it 
+function isAlpha(word) {
+    alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    for (let check of word) {
+        if (alphabet.includes(check)) {
+            return true
+        } else {
+            return false
+        };
+    };
 };
