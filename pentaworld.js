@@ -4,11 +4,15 @@ let arr = [];
 const word = 'panda';
 
 
-// In a more organized way, we should have one function to get the letter
-// and another to process it. Decided to do both in the same function to mimic
-// original game behaviour that, as a user presses an key, the program (supposedly, in my
-// limited knowledge) 'gets' the key first and adds it to a comparison array of
-// some sort.
+/*
+Basics of this game is, as the key is pressed it fills a display and is added
+to an array. If the display is filled, the user entered word is compared to the
+daily word.
+*/
+
+
+// First, we need to populate the display (squares) on a row and
+// add letters to an array tha will be used later
 function getKeyPress(current) {
     const current_key = document.getElementById(current)
     const current_char = current_key.textContent
@@ -27,8 +31,9 @@ function getKeyPress(current) {
 };
 
 
-// Since my program has screen keyboards, some listeners and their respective
+// Since the program has screen keyboards, some listeners and their respective
 // functions are needed
+
 function addCharListener() {
     let btn_elem = document.getElementsByClassName('keybutton')
 
@@ -63,14 +68,15 @@ function delChar() {
     }
 };
 
-// need to change window.alert to show some stats and reset game
+
+// This function controls the main flow of the game and uses checkWord()
+// to process the visual part
+
 function subWord() {
     let dailyWordArr = word.toUpperCase().split('')
-    console.log(dailyWordArr)
-    console.log(active_row)
 
+    // user guessed wrong keep going
     if (active_row < 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == false) {
-        // user guessed wrong
         checkWord()
         active_row++
         item_pos = 0
@@ -78,17 +84,17 @@ function subWord() {
 
         arr = []
 
-
-    } else if (active_row < 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == true) {
         // user guessed right
+    } else if (active_row < 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == true) {
         checkWord()
         window.alert(`You got the right word in less than 6 tries. It was on row ${active_row}`)
 
-    } else if (active_row == 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == true) {
         // last row, right guess
+    } else if (active_row == 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == true) {
         checkWord()
         window.alert('You got it right in the last try, phew!')
 
+        // tries ends
     } else if (active_row == 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == false) {
         checkWord()
         window.alert('Game ended for real')
@@ -97,13 +103,11 @@ function subWord() {
 
 
 // To declutter the subWord() function, did a separate one
-// just to handle checking part (user word vs 'daily' word). 
-// Added visuals (green/yellow/red) too because it isn't anything 
-// too fancy to require a separate function
+// just to handle visuals. 
+
 function checkWord() {
     let check_pos = 0
     let daily_word_arr = word.toUpperCase().split('')
-    let result_str = ''
 
     for (let char of arr) {
 
@@ -133,14 +137,12 @@ function checkWord() {
 
         }
     }
-
-    return result_str
 };
 
 
-// Applied the same logic from original game. Users could either type on
-// phisical keyboard or click on the screen to add letters, so again, decided
-// to mimic the original behaviour.
+// Like the original, words can be entered by typing on the physical
+// keyboards too, so I've implemented that
+
 document.addEventListener('keyup', keyPressAlpha);
 
 function keyPressAlpha(usrkey) {
@@ -161,9 +163,8 @@ function keyPressAlpha(usrkey) {
     }
 };
 
-// Since there is no .isalpha() like on python, we had to create it 
-// because we are using it to only allow alpha characters to be
-// displayed
+// Since there is no .isalpha() like on python, I had to create it
+
 function isAlpha(word) {
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
@@ -176,7 +177,10 @@ function isAlpha(word) {
     }
 };
 
-// Needed this to compare both arrays (user's and daily word)
+// Needed this to compare both arrays (user's and daily word). Could
+// have done in a different way using for(let i = 0, i < arr_a.length, i++)
+// decided to try this way to train myself.
+
 function compareArr(arr_a, arr_b) {
     let iter = 0
 
