@@ -76,8 +76,8 @@ div.letter_tries {
     display: flex;
     flex-direction: column;
     padding-top: 2vw;
-    padding-bottom: 2vw;
-    gap: 1vw;
+    padding-bottom: 1.5vw;
+    gap: 0.5vw;
 }
 
 @media only screen and (max-width: 900px) {
@@ -112,8 +112,8 @@ div.char {
     border-radius: 5%;
     border-width: 2px;
     border-color: rgba(186, 89, 255, 0.257);
-    width: 3vw;
-    height: 3vw;
+    width: 2.6vw;
+    height: 2.6vw;
     font-size: 2vw;
     color:rgb(255, 102, 229);
     font-family: Arial, Helvetica, sans-serif;
@@ -124,10 +124,12 @@ div.char {
     from {
         border-color: rgb(6, 77, 0);
         color: rgb(6, 77, 0);
+        background:black
     }
     to {
         border-color:rgb(2, 255, 23);
         color: rgb(2, 255, 23);
+        background:rgb(10, 58, 0)
     }
 }
 
@@ -164,7 +166,7 @@ div.submit_buttons {
     justify-content: center;
     align-items: center;
     gap: 2vw;
-    padding: 0.5vw;
+    padding: 0.3vw;
 }
 
 @media only screen and (max-width: 900px) {
@@ -219,8 +221,8 @@ button.keybutton {
     border-radius: 15%;
     border-width: 2px;
     border-color: rgb(255, 170, 0);
-    width: 2.4vw;
-    height: 2.2vw;
+    width: 2vw;
+    height: 1.8vw;
     text-align: center;
     vertical-align: middle;
     margin: 0px;
