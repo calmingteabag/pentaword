@@ -2,6 +2,7 @@ let item_pos = 0;
 let active_row = 0;
 let arr = [];
 const word = 'panda';
+let game_active = true;
 
 
 /*
@@ -19,7 +20,7 @@ function getKeyPress(current) {
 
     console.log(`You pressed this key: ${current_char}`)
 
-    if (item_pos < 5) {
+    if (item_pos < 5 && game_active == true) {
 
         let rowlist = document.getElementsByClassName('row_try')[active_row];
         let curr_char = rowlist.children;
@@ -59,7 +60,7 @@ document.addEventListener("DOMContentLoaded", checkWordListener, false);
 
 function delChar() {
 
-    if (item_pos > 0) {
+    if (item_pos > 0 && game_active == true) {
         let curr_row = document.getElementsByClassName('row_try')[active_row]
         let curr_char = curr_row.getElementsByClassName('char')[item_pos - 1]
         curr_char.innerHTML = ''
@@ -76,7 +77,7 @@ function subWord() {
     let dailyWordArr = word.toUpperCase().split('')
 
     // user guessed wrong keep going
-    if (active_row < 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == false) {
+    if (active_row < 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == false && game_active == true) {
         checkWord()
         active_row++
         item_pos = 0
@@ -85,19 +86,25 @@ function subWord() {
         arr = []
 
         // user guessed right
-    } else if (active_row < 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == true) {
+    } else if (active_row < 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == true && game_active == true) {
         checkWord()
+        game_active = false
         window.alert(`You got the right word in less than 6 tries. It was on row ${active_row}`)
+        console.log(game_active)
 
         // last row, right guess
-    } else if (active_row == 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == true) {
+    } else if (active_row == 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == true && game_active == true) {
         checkWord()
+        game_active = false
         window.alert('You got it right in the last try, phew!')
 
+
         // tries ends
-    } else if (active_row == 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == false) {
+    } else if (active_row == 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == false && game_active == true) {
         checkWord()
+        game_active = false
         window.alert('Game ended for real')
+
     }
 };
 
@@ -147,7 +154,7 @@ document.addEventListener('keyup', keyPressAlpha);
 
 function keyPressAlpha(usrkey) {
 
-    if (item_pos < 5 && isAlpha(usrkey.key) == true && usrkey.key != '') {
+    if (item_pos < 5 && isAlpha(usrkey.key) == true && usrkey.key != '' && game_active == true) {
         let rowlist = document.getElementsByClassName('row_try')[active_row];
         let curr_char = rowlist.children;
 
@@ -155,10 +162,10 @@ function keyPressAlpha(usrkey) {
         item_pos++
         arr.push(usrkey.key.toUpperCase())
 
-    } else if (item_pos <= 5 && usrkey.key == 'Backspace') {
+    } else if (item_pos <= 5 && usrkey.key == 'Backspace' && game_active == true) {
         delChar()
 
-    } else if (item_pos == 5 && usrkey.key == 'Enter') {
+    } else if (item_pos == 5 && usrkey.key == 'Enter' && game_active == true) {
         subWord()
     }
 };
