@@ -9,6 +9,12 @@ let game_active = true;
 Basics of this game is, as the key is pressed it fills a display and is added
 to an array. If the display is filled, the user entered word is compared to the
 daily word.
+
+item_pos tracks the char position on a row
+active_row tracks which row is being filled
+
+game_active is needed to prevent odd execution, for example
+user being able to delete chars after the game ended
 */
 
 
@@ -148,7 +154,8 @@ function checkWord() {
 
 
 // Like the original, words can be entered by typing on the physical
-// keyboards too, so I've implemented that
+// keyboards too, so I've implemented that because I found it's easier
+// to play this way.
 
 document.addEventListener('keyup', keyPressAlpha);
 

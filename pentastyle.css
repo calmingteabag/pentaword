@@ -21,8 +21,252 @@ div.main_window {
 
 @media only screen and (max-width: 900px) {
     div.main_window {
-        width: 100%;
+        width: 99.5%;
         height: 100%;
+    }
+}
+div.score_overlay_wrapper {
+    /* display: none; */
+    height: 70vh;
+    width: 50vw;
+    position: fixed;
+    z-index: 1;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(151, 56, 159);
+    column-gap: 2vw;
+    background-color: rgb(39, 39, 39);
+}
+
+@media only screen and (max-width: 900px) {
+    div.score_overlay_wrapper {
+        width: 95vw;
+    }
+}
+
+div.score_overlay_main { 
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+div.score_title {
+    display: flex;
+    height: 10%;
+    padding: 0px;
+    margin: 0px;
+    border:0px;
+    color:rgb(255, 42, 184);
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 2.6vw;   
+}
+
+@media only screen and (max-width: 900px) {
+    div.score_title {
+        font-size: 8vw;
+    }
+}
+
+div.score_stats_main {
+    display: flex;
+    flex-direction: column;
+    height: 70%;
+    color: white;
+}
+
+div.score_exit_button {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 20%;
+    padding: 1.5vw;
+}
+
+@media only screen and (max-width: 900px) {
+    div.score_exit_button {
+        padding-bottom: 5vw;
+    }
+}
+
+
+div.score_word {
+    display: flex;
+    font-family: Arial, Helvetica, sans-serif;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0.5vw;
+}
+
+div.score_word_title {
+    padding-right: 1.5vw;
+}
+
+@media only screen and (max-width: 900px) {
+    div.score_info_title {
+        padding-right: 1vw;
+    }
+}
+
+
+div.score_info {
+    display: flex;
+    flex-direction: column;
+    gap: 2vw;
+    font-family: Arial, Helvetica, sans-serif;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    font-size: 1vw;
+}
+
+
+div.score_info_main_stats {
+    display: flex;
+    flex-direction: row;
+    width:100%;
+    height:25%;
+    gap: 2vw;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 900px) {
+    div.score_info_main_stats {
+        column-gap: 12vw;
+    }
+}
+
+div.score_info_tile {
+    display: flex;
+    flex-direction: column;
+    width: 10vw;
+    justify-content: center;
+
+}
+
+div.score_info_value {
+    display: flex;
+    font-size: 3.2vw;
+    font-weight: 700;
+    height: 75%;
+    margin: 0px;
+    padding: 0px;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-width: 900px) {
+    div.score_info_value {
+        font-size: 8.5vw;
+        font-weight:700;
+    }
+}
+
+
+div.score_info_description {
+    font-size: 1vw;
+    height: 25%;
+}
+
+@media only screen and (max-width: 900px) {
+    div.score_info_description {
+        font-size: 3.2vw;
+    }
+}
+
+div.score_info_additional_stats {
+    display:flex;
+    flex-direction: row;
+    height: 70%;
+    width: 100%;
+}
+
+@media only screen and (max-width: 900px) {
+    div.score_info_additional_stats {
+        padding: 4vw;
+    }
+}
+
+div.score_info_graphs {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.2vw;
+    padding-left: 4vw;
+    padding-right: 4vw;
+}
+
+div.score_info_graphs_title {
+    display: flex;
+    height:25%;
+    font-size: 1.5vw;
+    font-weight: 700;
+    justify-content:left;
+    align-items: center;
+}
+
+@media only screen and (max-width: 900px) {
+    div.score_info_graphs_title {
+        font-size: 4vw;
+    }
+}
+
+div.score_info_graphs_tries {
+    display:flex;
+    flex-direction: row;
+    gap: 2vw;
+    font-size: 1vw;
+    align-items: center;
+}
+
+@media only screen and (max-width: 900px) {
+    div.score_info_graphs_tries {
+        font-size: 4vw;
+    }
+}
+
+div.score_info_graphs_timer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vw;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: 2vw;
+}
+
+@media only screen and (max-width: 900px) {
+    div.score_info_graphs_timer {
+        font-size: 4vw;
+
+    }
+}
+
+div.score_info_graphs_timer_title {
+    font-size: 2vw;
+    font-weight: 700;
+}
+
+@media only screen and (max-width: 900px) {
+    div.score_info_graphs_timer_title {
+        font-size: 4vw;
+    }
+}
+
+div.score_info_graphs_timer_timer {
+    font-size: 3vw;
+}
+
+@media only screen and (max-width: 900px) {
+    div.score_info_graphs_timer_timer {
+        font-size: 7vw;
     }
 }
 
@@ -39,11 +283,10 @@ div.title {
     align-items: center;
     justify-content: center;
     border-style: solid;
-    border-color: rgb(154, 154, 154);
+    border-color: rgb(151, 56, 159);
     border-width: 1px;
     height: 4vw;
     background-color: rgb(15, 15, 15);
-    padding: 0px;
     margin: 0px;
     color:rgb(255, 42, 184);
     font-family: Arial, Helvetica, sans-serif;
@@ -64,7 +307,7 @@ div.title {
 
 div.letreco {
     border-style: solid;
-    border-color: rgb(154, 154, 154);
+    border-color: rgb(151, 56, 159);
     border-width: 1px;
     height: 90%;
     background-color: rgb(15, 15, 15);

@@ -1,10 +1,25 @@
-# Tentativas de fazer o basico do wordle/letreco funcionar
+# Bem vindo ao Pentaworld, um clone do Wordle/Letreco. 
 
-Mas hoje bati a cabeça bonito, bonito mesmo. Se foder.
 
-Negocio é, descobri mil maneiras de clicar na letra e retornar a letra que aperto, descobri várias coisas sobre js que nem sabia que era possivel (modificar um atributo, por exemplo)
+Considerando que tenho familiaridade zero com javascript, consegui implementar a maioria das funcionalidades principais
 
-O que ta me matando vivo é que quero preencher os quadradinhos do letreco e não sei como.
+Grande parte da dificuldade alem da sintaxe diferente da outra linguaguem que usava (python) e das coisas especificas de js, por exemplo, lembrar as limitações de 'let' e 'const' no começo, foi o fato de js lidar diretamente com a web, que dá um nivel maior de complexidade do que só 'printar' coisas no console como o python. Manipulação de DOM foi bem complicado nos primeiros dias.
 
-Vc tem 6 linhas e cinco colunas, o programa precis saber primeiro em qual linha vc tá pra poder começar. E ai começa o problema. 
+Dito isso, apesar dos perrengues de javascript, achei infinitamente melhor trabalhar web com js do que python. Django é um framework bem legal pra backend, mas é muito limitado pra frontend pq não te permite mexer na parte visual. Das várias vezes que mexi em django, me frustava porque queria fazer 'firulas' mas não sabia ir muito além do css. Por exemplo, em um projeto que eu tava desenvolvendo e envolve mapas, queria simplesmente implementar um script de meia duzia de linhas que pegasse as coordenadas do mapa e passasse pro backend pra processar. Imagine a frustração de uma pessoa não conseguir fazer isso porque não entendia direito a sintaxe de js e como ela manipula o html.
+
+## To Do
+
+### Mudar o titulo para pentaWORD e não pentaworld
+
+### Terminar a parte de score
+
+### Implementar uma forma do programa ler um dicionario de palavras
+
+
+
+
+
+
+
+
 
