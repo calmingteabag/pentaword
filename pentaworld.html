@@ -13,10 +13,10 @@
 </head>
 
 <body>
-    <div class='score_overlay_wrapper'>
+    <div class='score_overlay_wrapper' id='score_wrapper' style="visibility: hidden;">
         <div class='score_overlay_main'>
-            <div class='score_title'>
-                Estatisticas
+            <div class='score_title' id='score_title'>
+                Statistics
             </div>
             <div class='score_stats_main'>
                 <div class='score_word'>
@@ -85,7 +85,9 @@
     <div class='main_window'>
         <div class='appwindow'>
             <div class='title'>
-                Pentaword
+                <div class='title_left'></div>
+                <div class='title_center'>PENTAWORD</div>
+                <div class='title_right' id='show_stat'>i</div>
             </div>
 
             <div class='letreco'>

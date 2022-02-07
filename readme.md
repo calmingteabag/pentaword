@@ -9,11 +9,17 @@ Dito isso, apesar dos perrengues de javascript, achei infinitamente melhor traba
 
 ## To Do
 
-### Mudar o titulo para pentaWORD e não pentaworld
-
 ### Terminar a parte de score
 
 ### Implementar uma forma do programa ler um dicionario de palavras
+
+Info para mim
+Terminei a maior parte da estilização da janela de estatisticas e a funcionalidade basica dela
+aka, exibição da janela.
+
+Falta agora uma maneira de salvar as estatisticas de cada jogador (cookies talvez) e exibir
+os dados nesse display de estatistica.
+
 
 
 

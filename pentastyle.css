@@ -26,7 +26,6 @@ div.main_window {
     }
 }
 div.score_overlay_wrapper {
-    /* display: none; */
     height: 70vh;
     width: 50vw;
     position: fixed;
@@ -280,8 +279,6 @@ div.appwindow {
 
 div.title {
     display: flex;
-    align-items: center;
-    justify-content: center;
     border-style: solid;
     border-color: rgb(151, 56, 159);
     border-width: 1px;
@@ -294,14 +291,58 @@ div.title {
     font-size: 3vw;
     padding-top:0.3vw;
     padding-bottom:0.3vw;
+    padding-left:1vw;
+    padding-right:1vw;
 }
 
 @media only screen and (max-width: 900px) {
     div.title {
-        font-size: 7vw;
-        padding-top:0.3vw;
-        padding-bottom:0.3vw;
+        font-size: 9vw;
+        padding-top:2.5vw;
+        padding-bottom:2.5vw;
+        padding-right:3vw;
+        padding-left:3vw;
         height: 10vw;
+    }
+}
+
+div.title_center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    width: 60%;
+}
+
+
+
+div.title_left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+}
+
+
+
+div.title_right {
+    display: flex;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    justify-content: right;
+    align-items: center;
+    font-size: 2.5vw;
+    width: 20%;
+}
+
+div.title_right:hover {
+    cursor: pointer;
+    color: white;
+
+}
+
+@media only screen and (max-width: 900px) {
+    div.title_right {
+        font-size:7vw;
     }
 }
 

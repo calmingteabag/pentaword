@@ -60,9 +60,45 @@ function checkWordListener() {
     sub_btn.addEventListener("click", subWord, false)
 };
 
+function exitStatListener() {
+    let exit_btn = document.getElementById('exit_stats')
+    exit_btn.addEventListener("click", closeStat, false)
+}
+
+function showStatsListener() {
+    let stat_listener = document.getElementById('show_stat')
+    stat_listener.addEventListener("click", statToggle, false)
+}
+
 document.addEventListener("DOMContentLoaded", addCharListener, false);
 document.addEventListener("DOMContentLoaded", delCharListener, false);
 document.addEventListener("DOMContentLoaded", checkWordListener, false);
+document.addEventListener("DOMContentLoaded", exitStatListener, false);
+document.addEventListener("DOMContentLoaded", showStatsListener, false);
+
+function statToggle() {
+    let viewToggle = document.getElementById('score_wrapper')
+    if (viewToggle.style.visibility == 'hidden') {
+        showStat()
+    } else {
+        closeStat()
+    }
+}
+
+function showStat() {
+    let show_stat = document.getElementById('score_wrapper')
+    show_stat.style.visibility = 'visible'
+}
+
+function closeStat() {
+    let stat_window = document.getElementById('score_wrapper')
+    stat_window.style.visibility = 'hidden'
+    document.getElementById('score_wrapper').style.backgroundColor = 'rgb(39, 39, 39)'
+    document.getElementById('score_wrapper').style.borderColor = 'rgb(151, 56, 159)'
+    document.getElementById('score_title').style.color = 'rgb(255, 42, 184)'
+    document.getElementById('score_title').innerHTML = 'Statistics'
+
+}
 
 function delChar() {
 
@@ -88,28 +124,38 @@ function subWord() {
         active_row++
         item_pos = 0
         console.log(arr)
-
         arr = []
 
         // user guessed right
     } else if (active_row < 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == true && game_active == true) {
         checkWord()
         game_active = false
-        window.alert(`You got the right word in less than 6 tries. It was on row ${active_row}`)
-        console.log(game_active)
+        document.getElementById('score_wrapper').style.visibility = 'visible'
+        document.getElementById('score_wrapper').style.backgroundColor = 'rgb(4, 29, 8)'
+        document.getElementById('score_wrapper').style.borderColor = 'rgb(2, 255, 23)'
+        document.getElementById('score_title').style.color = 'rgb(2, 255, 23)'
+        document.getElementById('score_title').innerHTML = 'You got it!'
 
         // last row, right guess
     } else if (active_row == 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == true && game_active == true) {
         checkWord()
         game_active = false
-        window.alert('You got it right in the last try, phew!')
+        document.getElementById('score_wrapper').style.visibility = 'visible'
+        document.getElementById('score_wrapper').style.backgroundColor = 'rgb(4, 29, 8)'
+        document.getElementById('score_wrapper').style.borderColor = 'rgb(2, 255, 23)'
+        document.getElementById('score_title').style.color = 'rgb(2, 255, 23)'
+        document.getElementById('score_title').innerHTML = 'You got it!'
 
 
         // tries ends
     } else if (active_row == 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == false && game_active == true) {
         checkWord()
         game_active = false
-        window.alert('Game ended for real')
+        document.getElementById('score_wrapper').style.visibility = 'visible'
+        document.getElementById('score_wrapper').style.backgroundColor = 'rgb(24, 2, 2)'
+        document.getElementById('score_wrapper').style.borderColor = 'red'
+        document.getElementById('score_title').style.color = 'red'
+        document.getElementById('score_title').innerHTML = 'Try again tomorrow'
 
     }
 };
