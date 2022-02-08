@@ -14,11 +14,12 @@ Dito isso, apesar dos perrengues de javascript, achei infinitamente melhor traba
 ### Implementar uma forma do programa ler um dicionario de palavras
 
 Info para mim
-Terminei a maior parte da estilização da janela de estatisticas e a funcionalidade basica dela
-aka, exibição da janela.
 
-Falta agora uma maneira de salvar as estatisticas de cada jogador (cookies talvez) e exibir
-os dados nesse display de estatistica.
+Terminei a parte de salvar estatisticas dos jogadores. Pensei em fazer via cookies, mas descobri o web storage api
+que é bem melhor e mais facil de usar.
+
+To terminando a parte visual, de pegar os valores das estatisticas e mostrar na janela, mas travado em como fazer
+pra ele mostrar a porcentagem dos jogos ganhos.
 
 
 

@@ -155,14 +155,19 @@ document.addEventListener("DOMContentLoaded", checkExistUserData, false);
 function updateInfo() {
     let htmlElements = document.getElementsByClassName('score_info_value')
     let winRatio = (parseInt(localStorage.getItem('wonGames')) / parseInt(localStorage.getItem('playedGames')) * 100).toFixed(1)
-    console.log(winRatio)
-    console.log(htmlElements.length)
-    let updateElements = ['playedGames', 'currStreak', 'maxStreak']
+    let updateElements = ['playedGames', 'winRatio', 'currStreak', 'maxStreak']
 
-    for (let i = 0; i < updateElements.length; i++) {
+    // pedreiro mode
+    // htmlElements[0].innerHTML = localStorage.getItem('playedGames')
+    // htmlElements[1].innerHTML = winRatio
+    // htmlElements[2].innerHTML = localStorage.getItem('currStreak')
+    // htmlElements[3].innerHTML = localStorage.getItem('maxStreak')
+
+
+    for (let i = 0; i < htmlElements.length; i++) {
 
         if (i == 1) {
-            htmlElements[i].innerHTML = 'sar'
+            htmlElements[i].innerHTML = winRatio
         }
         htmlElements[i].innerHTML = localStorage.getItem(updateElements[i])
     }
