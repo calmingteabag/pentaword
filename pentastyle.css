@@ -57,7 +57,8 @@ div.score_title {
     margin: 0px;
     border:0px;
     color:rgb(255, 42, 184);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    letter-spacing:0.1vw;
     font-weight: bold;
     justify-content: center;
     align-items: center;
@@ -68,6 +69,7 @@ div.score_title {
 @media only screen and (max-width: 900px) {
     div.score_title {
         font-size: 8vw;
+        letter-spacing: 0.5vw;
     }
 }
 
@@ -104,6 +106,11 @@ div.score_word {
 
 div.score_word_title {
     padding-right: 1.5vw;
+}
+
+div.score_word_word {
+    color: rgb(255, 42, 184);
+    letter-spacing:0.1vw;
 }
 
 @media only screen and (max-width: 900px) {
@@ -202,6 +209,12 @@ div.score_info_graphs {
     padding-right: 4vw;
 }
 
+@media only screen and (max-width: 900px) {
+    div.score_info_graphs {
+        gap: 1vw;
+    }
+}
+
 div.score_info_graphs_title {
     display: flex;
     height:25%;
@@ -229,6 +242,21 @@ div.score_info_graphs_tries {
     div.score_info_graphs_tries {
         font-size: 4vw;
     }
+}
+
+div.score_info_graphs_try_number {
+    width: 10%;
+}
+
+div.score_info_graph_column {
+    width: 90%;
+    height: 100%;
+}
+
+div.score_info_graph_fill {
+    width: 100%;
+    height: 100%;
+    background-color:rgb(255, 42, 184);
 }
 
 div.score_info_graphs_timer {
@@ -293,6 +321,7 @@ div.title {
     padding-bottom:0.3vw;
     padding-left:1vw;
     padding-right:1vw;
+    letter-spacing:0.1vw;
 }
 
 @media only screen and (max-width: 900px) {
@@ -303,6 +332,7 @@ div.title {
         padding-right:3vw;
         padding-left:3vw;
         height: 10vw;
+        letter-spacing:0.2vw;
     }
 }
 
@@ -414,6 +444,15 @@ div.char {
         border-color:rgb(2, 255, 23);
         color: rgb(2, 255, 23);
         background:rgb(10, 58, 0)
+    }
+}
+
+@keyframes char_animation {
+    from {
+        border-color: rgb(15, 15, 15);
+    }
+    to {
+        border-color:rgb(255, 55, 205);
     }
 }
 
