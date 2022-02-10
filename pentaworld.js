@@ -3,21 +3,33 @@ Basics of this game is, as the key is pressed it fills a display and is added
 to an array. If the display is filled, the user entered word is compared to the
 daily word.
 
+Since I was pratically learning js from the ground up
+and doing so as this project grew, code is really messy. Tried
+to refactor as much as I could.
+*/
+
+/*
+Basic game setup
+
 item_pos tracks the char position on a row
 active_row tracks which row is being filled
 
 game_active is needed to prevent odd execution, for example
 user being able to delete chars after the game ended
 */
-
-// game data
 let item_pos = 0;
 let active_row = 0;
 let arr = [];
 let word = 'panda';
-let game_active = false; // alters game state
+let game_active = ''; // alters game state
 
-// User data
+
+/*
+Needed some kind of 'save' for the game and given the size of it I
+thought using databases would be really overkill. Went for local
+storage because another thing I wanted was it for run local only,
+no server.
+*/
 function createUserData() {
     let userID = randInt(0, 600000)
     let insertValues = new Map([
@@ -80,18 +92,51 @@ of this size, seemed a bit overkill to add listerners for single functions.
 Did it anyway, for practice.
 */
 
-async function startCheck() {
-    let promise = new Promise((resolve, reject) => {
-        let x = 0
+// Need to check if user can or can't play the game
+// So, if it's a new user, state must be true and change to false after playing ended
+// Now if its a existing user, we could assume he already played and is waiting
+// for the next reset. So for this guy, game state would be false.
 
-        if (x == 0) {
-            resolve(console.log('yes'))
-        } else {
-            reject(console.log('nops'))
+// pseudocode for that
+// game state is set to false
+// if user doesn't exists (1st time playing),
+// set state to true
+// if user exists, (nth time playing) and it's not midnight, game state keeps
+// on false.
+// if user exists and time is midnight turn it to true -> problem resides here
+
+// if the default state is false, what happens is, the last line will turn state to true but
+// as soon as the page is reloaded, it will turn false again.
+// HOW TO FIX THAT?!?
+
+// just thought of a workaround
+// move game state variable to localStorage, so, on load, it will create the
+// state variable there and it will save current state. then we ""only""" need
+// to look for where active_state is used and change for localStorage.getItem
+
+async function startCheck() {
+    let fullDate = new Date();
+    let currentTime = fullDate.getHours() + ":" + fullDate.getMinutes() + ":" + fullDate.getSeconds();
+
+    await new Promise((resolve, reject) => {
+        if (currentTime == '00:00:00') {
+            resolve(game_active = true)
         }
     });
-}
+};
 
+async function rowGlowAnimate() {
+    /*
+    Didn't knew much about async/await and promises until I needed a way to use a timer. 
+    Figured out it was time to, at least, use some basic level of it.
+    */
+    let allChars = document.getElementsByClassName('char')
+
+    for (let char of allChars) {
+        await new Promise((resolve, reject) => setTimeout(resolve, 25))
+        char.style.animation = 'char_animation 0.7s ease-in-out 0s 2 alternate'
+    }
+};
 
 function addCharListener(classname, atrib) {
     let btn_elem = document.getElementsByClassName(classname)
@@ -185,14 +230,7 @@ function dailyWordChange(word) {
     document.getElementById('daily_word').innerHTML = word
 }
 
-async function rowGlowAnimate() {
-    let allChars = document.getElementsByClassName('char')
 
-    for (let char of allChars) {
-        await new Promise((resolve, reject) => setTimeout(resolve, 25))
-        char.style.animation = 'char_animation 1.0s ease-in-out alternate'
-    }
-};
 
 document.addEventListener("DOMContentLoaded", startCheck, false);
 document.addEventListener("DOMContentLoaded", function () { addCharListener('keybutton', 'id') }, false);
@@ -386,13 +424,14 @@ function isAlpha(word) {
     }
 };
 
-/*
-Needed this to compare both arrays (user's and daily word). Could
-have done in a different way using for(let i = 0, i < arr_a.length, i++)
-decided to try this way to train myself.
-*/
 
 function compareArr(arr_a, arr_b) {
+    /*
+    Needed this to compare both arrays (user's and daily word). Could
+    have done in a different way using for(let i = 0, i < arr_a.length, i++)
+    decided to try this way to train myself.
+    */
+
     let iter = 0
 
     if (arr_a.length == 0) {

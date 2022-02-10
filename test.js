@@ -59,13 +59,7 @@ function toCelciusRandColor() {
     // randomColorText2();
 };
 
-static isValid(csvString, options = DEFAULT_OPTION) {
-    const [header, ...fileWithoutHeader] = csvString.split('\n')
-    const isHeaderValid = header === options.fields.join(',')
-    if (!isHeaderValid) {
-        return {
-            error: error.FILE_FIELDS_ERROR_MESSAGE,
-            valid: false,
-        }
-    }
-}
+let today = new Date();
+let curr = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+// console.log(`${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`)
+console.log(typeof curr)

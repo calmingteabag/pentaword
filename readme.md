@@ -1,11 +1,14 @@
 # Bem vindo ao Pentaworld, um clone do Wordle/Letreco. 
 
+## Experiencia pessoal com o projeto
 
-Considerando que tenho familiaridade zero com javascript, consegui implementar a maioria das funcionalidades principais
+Quando tive a idéia de fazer meu clone do Wordle/Letreco, já existiam alguns tutoriais de como construir o jogo, mas todos muito confusos ou muito longos. Juntando o fato de eu acreditar que tutoriais não ensinam quase nada, exceto mostrar que é possivel fazer algo com alguma coisa, resolvi tentar sozinho fazendo meio que um reverse engineering do jogo. Queria aprender javascript no processo, então meus parametros pra escrever foram, usar só vanilla JS/HTML/CSS e um minimo de backend só pra deploy o projeto em algum lugar (atualmente com Django pois só sei usar ele). Conheço a existencia de React, Vue, Angular, NodeJS pra backend, mas fica para um próximo projeto.
 
-Grande parte da dificuldade alem da sintaxe diferente da outra linguaguem que usava (python) e das coisas especificas de js, por exemplo, lembrar as limitações de 'let' e 'const' no começo, foi o fato de js lidar diretamente com a web, que dá um nivel maior de complexidade do que só 'printar' coisas no console como o python. Manipulação de DOM foi bem complicado nos primeiros dias.
+Foi um puta, mas um puta desafio pra quem até agora só tinha feito umas paginas estáticas usando Django. Js é muito diferente, já que ele mexe diretamente com DOM ,as aprendi infinitamente mais quebrando a cabeça nesse projeto do que aprenderia se ficasse vendo milhões de tutoriais na internet. Um milhão de tutoriais não ensinariam o que esse projeto me ensinou. 
 
-Dito isso, apesar dos perrengues de javascript, achei infinitamente melhor trabalhar web com js do que python. Django é um framework bem legal pra backend, mas é muito limitado pra frontend pq não te permite mexer na parte visual. Das várias vezes que mexi em django, me frustava porque queria fazer 'firulas' mas não sabia ir muito além do css. Por exemplo, em um projeto que eu tava desenvolvendo e envolve mapas, queria simplesmente implementar um script de meia duzia de linhas que pegasse as coordenadas do mapa e passasse pro backend pra processar. Imagine a frustração de uma pessoa não conseguir fazer isso porque não entendia direito a sintaxe de js e como ela manipula o html.
+
+
+
 
 ## To Do
 
@@ -15,11 +18,20 @@ Dito isso, apesar dos perrengues de javascript, achei infinitamente melhor traba
 
 Info para mim
 
-Terminei a parte de salvar estatisticas dos jogadores. Pensei em fazer via cookies, mas descobri o web storage api
-que é bem melhor e mais facil de usar.
+Terminei as parte de estatisticas, tudo bonito, aproveitei pra documentar um pouco melhor o codigo.
 
-To terminando a parte visual, de pegar os valores das estatisticas e mostrar na janela, mas travado em como fazer
-pra ele mostrar a porcentagem dos jogos ganhos.
+Comecei a olhar a parte do timer do jogo, pq no original sempre que bate meia noite, a palavra reseta
+e vc pode jogar. Depois de ganhar/perder, o proximo jogo só no dia seguinte.
+
+Ainda não sei como solucionar direito, pensei em um tipo de timer quando o script for 'carregado' no html
+algo do tipo
+
+no carregamento, set o timer pra 24h
+se ja carregado, reset timer cada vitoria/derrota, algo assim ou, reset sempre que der 0:00
+
+
+Sobre o jogo carregar a palavra do dia: Vou usar beautifulsoup pra scrap a pagina especifica do dicio (que mostram palavras de 5 letras).
+Na hora de pegar a palavra, fazer um check se tem letras repetidas, pra ele pegar de novo
 
 
 

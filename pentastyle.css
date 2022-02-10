@@ -397,6 +397,8 @@ div.letter_tries {
 @media only screen and (max-width: 900px) {
     div.letter_tries {
         gap: 2vw;
+        padding-top:15vw;
+        padding-bottom:10vw;
     }
 }
 
@@ -438,7 +440,7 @@ div.char {
     from {
         border-color: rgb(6, 77, 0);
         color: rgb(6, 77, 0);
-        background:black
+        background:rgb(15, 15, 15)
     }
     to {
         border-color:rgb(2, 255, 23);
@@ -449,10 +451,12 @@ div.char {
 
 @keyframes char_animation {
     from {
-        border-color: rgb(15, 15, 15);
+        border-color: rgba(186, 89, 255, 0.257);
+        background-color: rgb(15, 15, 15)
     }
     to {
-        border-color:rgb(255, 55, 205);
+        border-color:rgb(250, 78, 207);
+        background-color: rgb(65, 0, 49)
     }
 }
 
@@ -495,6 +499,8 @@ div.submit_buttons {
 @media only screen and (max-width: 900px) {
     div.submit_buttons {
         padding: 5vw;
+        padding-bottom:15vw;
+        gap:8vw;
     }
 }
 
