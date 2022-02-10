@@ -17,10 +17,10 @@ Descobri uma função chamada setInterval(função, tempo), que ele executa uma 
 Se o tempo anda em segundos...um inetervalo de 1000ms, faz a função ser executada a cada segundo, ou seja, meio que
 um cronometro.
 
-E acho que consigo ver dois jeitos, que é primeiro a cada segundo a função pegar a hora local e ir exibindo ou, ele pegar
+E acho que consigo ver dois jeitos, que é primeiro a cada segundo a função pegar a hora local e ir exibindo quanto falta ou, ele pegar
 uma vez a hora e a cada vez que o setinterval chama a função, ele desconta 1 segundo, até chegar meia noite.
 
-
+Outra coisa que ainda falta fazer é salvar o estado do jogo até o proximo reset. Consigo salvar o estado dele (cores, letras) usando map, mas descobri que não dá pra enviar um map pro localstorage, só json. Agora o desafio é jsonisar um map ou criar um json com os negocios que quero salvar.
 
 
 Sobre o jogo carregar a palavra do dia: Vou usar beautifulsoup pra scrap a pagina especifica do dicio (que mostram palavras de 5 letras.
