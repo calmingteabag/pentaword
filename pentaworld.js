@@ -14,14 +14,14 @@ Basic game setup
 item_pos tracks the char position on a row
 active_row tracks which row is being filled
 
-game_active is needed to prevent odd execution, for example
-user being able to delete chars after the game ended
 */
 let item_pos = 0;
 let active_row = 0;
 let arr = [];
+let tried_words = [];
 let word = 'panda';
-let game_active = ''; // alters game state
+let style_arr = [];
+let letterVisualsMap = new Map()
 
 
 /*
@@ -45,11 +45,26 @@ function createUserData() {
         ['row_3', 0],
         ['row_4', 0],
         ['row_5', 0],
+        ['game_state', 'active']
     ]);
 
     for (let values of insertValues) {
         localStorage.setItem(values[0], values[1])
     }
+}
+
+// Saves current visuals after game has ended
+function saveEndGameVisuals() {
+    let charElements = document.getElementsByClassName('char')
+
+    for (let char = 0; char < charElements.length; char++) {
+        if (charElements[char].innerHTML) {
+            letterVisualsMap.set(char, [charElements[char].innerHTML, charElements[char].getAttribute('style')])
+        }
+    }
+
+    let jsonier = JSON.stringify(letterVisualsMap)
+    console.log(jsonier)
 }
 
 // Check and create user data
@@ -74,12 +89,12 @@ function getKeyPress(currentKey) {
     const current_key = document.getElementById(currentKey)
     const current_char = current_key.textContent
 
-    if (item_pos < 5 && game_active == true) {
+    if (item_pos < 5 && localStorage.getItem('game_state') == 'active') {
 
         let rowlist = document.getElementsByClassName('row_try')[active_row];
         let curr_char = rowlist.children;
 
-        curr_char[item_pos].innerHTML = `<span class='charspan'>${current_char}</span>`
+        curr_char[item_pos].innerHTML = current_char
         item_pos++
         arr.push(current_char)
     }
@@ -92,35 +107,13 @@ of this size, seemed a bit overkill to add listerners for single functions.
 Did it anyway, for practice.
 */
 
-// Need to check if user can or can't play the game
-// So, if it's a new user, state must be true and change to false after playing ended
-// Now if its a existing user, we could assume he already played and is waiting
-// for the next reset. So for this guy, game state would be false.
-
-// pseudocode for that
-// game state is set to false
-// if user doesn't exists (1st time playing),
-// set state to true
-// if user exists, (nth time playing) and it's not midnight, game state keeps
-// on false.
-// if user exists and time is midnight turn it to true -> problem resides here
-
-// if the default state is false, what happens is, the last line will turn state to true but
-// as soon as the page is reloaded, it will turn false again.
-// HOW TO FIX THAT?!?
-
-// just thought of a workaround
-// move game state variable to localStorage, so, on load, it will create the
-// state variable there and it will save current state. then we ""only""" need
-// to look for where active_state is used and change for localStorage.getItem
-
 async function startCheck() {
     let fullDate = new Date();
     let currentTime = fullDate.getHours() + ":" + fullDate.getMinutes() + ":" + fullDate.getSeconds();
 
     await new Promise((resolve, reject) => {
         if (currentTime == '00:00:00') {
-            resolve(game_active = true)
+            resolve(localStorage.setItem('game_state', 'active'))
         }
     });
 };
@@ -137,6 +130,8 @@ async function rowGlowAnimate() {
         char.style.animation = 'char_animation 0.7s ease-in-out 0s 2 alternate'
     }
 };
+
+
 
 function addCharListener(classname, atrib) {
     let btn_elem = document.getElementsByClassName(classname)
@@ -168,6 +163,9 @@ function showStatsListener(statElement) {
 }
 
 function statToggle(toggleElement) {
+    /*
+    Show/Hides Stats
+    */
     let viewToggle = document.getElementById(toggleElement)
     if (viewToggle.style.visibility == 'hidden') {
         showStat('score_wrapper')
@@ -192,7 +190,7 @@ function closeStat(statElement) {
 }
 
 function delChar() {
-    if (item_pos > 0 && game_active == true) {
+    if (item_pos > 0 && localStorage.getItem('game_state') == 'active') {
         let curr_row = document.getElementsByClassName('row_try')[active_row]
         let curr_char = curr_row.getElementsByClassName('char')[item_pos - 1]
         curr_char.innerHTML = ''
@@ -208,18 +206,18 @@ function keyPressAlpha(usrkey) {
     here too.
     */
 
-    if (item_pos < 5 && isAlpha(usrkey.key) == true && usrkey.key != '' && game_active == true) {
+    if (item_pos < 5 && isAlpha(usrkey.key) == true && usrkey.key != '' && localStorage.getItem('game_state') == 'active') {
         let rowlist = document.getElementsByClassName('row_try')[active_row];
         let curr_char = rowlist.children;
 
-        curr_char[item_pos].innerHTML = `<span class='charspan'>${usrkey.key.toUpperCase()}</span>`
+        curr_char[item_pos].innerHTML = usrkey.key.toUpperCase()
         item_pos++
         arr.push(usrkey.key.toUpperCase())
 
-    } else if (item_pos <= 5 && usrkey.key == 'Backspace' && game_active == true) {
+    } else if (item_pos <= 5 && usrkey.key == 'Backspace' && localStorage.getItem('game_state') == 'active') {
         delChar()
 
-    } else if (item_pos == 5 && usrkey.key == 'Enter' && game_active == true) {
+    } else if (item_pos == 5 && usrkey.key == 'Enter' && localStorage.getItem('game_state') == 'active') {
         subWord()
     }
 };
@@ -290,16 +288,18 @@ function subWord() {
     let dailyWordArr = word.toUpperCase().split('')
 
     // Wrong Guess, row < last. Continue Game.
-    if (active_row < 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == false && game_active == true) {
+    if (active_row < 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == false && localStorage.getItem('game_state') == 'active') {
         checkWord()
+        tried_words.push(arr)
         active_row++
         item_pos = 0
         arr = []
 
         // Right guess, row < last.
-    } else if (active_row < 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == true && game_active == true) {
+    } else if (active_row < 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == true && localStorage.getItem('game_state') == 'active') {
         checkWord()
-        game_active = false
+        saveEndGameVisuals()
+        localStorage.setItem('game_state', 'inactive')
 
         let updateData = ['playedGames', 'wonGames', `row_${active_row}`, 'currStreak']
         for (let key of updateData) {
@@ -319,9 +319,10 @@ function subWord() {
         document.getElementById('score_title').innerHTML = 'You got it!'
 
         // Right guess, row == last.
-    } else if (active_row == 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == true && game_active == true) {
+    } else if (active_row == 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == true && localStorage.getItem('game_state') == 'active') {
         checkWord()
-        game_active = false
+        saveEndGameVisuals()
+        localStorage.setItem('game_state', 'inactive')
 
         let updateData = ['playedGames', 'wonGames', `row_${active_row}`, 'currStreak']
 
@@ -341,9 +342,10 @@ function subWord() {
         document.getElementById('score_title').innerHTML = 'You got it!'
 
         // Wrong guess, row == last.
-    } else if (active_row == 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == false && game_active == true) {
+    } else if (active_row == 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == false && localStorage.getItem('game_state') == 'active') {
         checkWord()
-        game_active = false
+        saveEndGameVisuals()
+        localStorage.setItem('game_state', 'inactive')
 
         let updateStorage = ['playedGames', 'lostGames']
 
@@ -457,3 +459,5 @@ function randInt(start, end) {
 
     return num
 }
+
+console.log(letterVisualsMap)
