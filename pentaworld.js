@@ -1,20 +1,10 @@
-/*
-Basics of this game is, as the key is pressed it fills a display and is added
-to an array. If the display is filled, the user entered word is compared to the
-daily word.
 
-Since I was pratically learning js from the ground up
-and doing so as this project grew, code is really messy. Tried
-to refactor as much as I could.
-*/
+// ##########################################################
+// #################### Basic Setup #########################
+// ##########################################################
 
-/*
-Basic game setup
-
-item_pos tracks the char position on a row
-active_row tracks which row is being filled
-
-*/
+// item_pos tracks the char position on a row
+// active_row tracks which row is being filled
 let item_pos = 0;
 let active_row = 0;
 let arr = [];
@@ -23,13 +13,57 @@ let word = 'panda';
 let style_arr = [];
 let letterVisualsMap = new Map()
 
+// Little animation on opening 
+async function rowGlowAnimate() {
+    let allChars = document.getElementsByClassName('char')
 
-/*
-Needed some kind of 'save' for the game and given the size of it I
-thought using databases would be really overkill. Went for local
-storage because another thing I wanted was it for run local only,
-no server.
-*/
+    for (let char of allChars) {
+        await new Promise((resolve, reject) => setTimeout(resolve, 25))
+        char.style.animation = 'char_animation 0.7s ease-in-out 0s 2 alternate'
+    }
+};
+
+// Get current date
+function currentTime() {
+    let fullDate = new Date();
+    let currTime = fullDate.getHours() + ":" + fullDate.getMinutes() + ":" + fullDate.getSeconds();
+
+    return currTime
+}
+
+// Show remaining time to next game
+function showTimerDOM() {
+
+    let nowDate = new Date()
+    let countdownHour = 23 - parseInt(nowDate.getHours(), 10)
+    let countdownMinute = 59 - parseInt(nowDate.getMinutes(), 10)
+    let countdownSecond = 59 - parseInt(nowDate.getSeconds(), 10)
+
+    let fullcountdown = countdownHour + ":" + countdownMinute + ":" + countdownSecond
+
+
+    document.getElementById('countdown').innerHTML = fullcountdown
+}
+
+// check if game is playable
+async function startCheck() {
+
+    await new Promise((resolve, reject) => {
+        if (currentTime() == '00:00:00') {
+            resolve(localStorage.setItem('game_state', 'active'))
+        }
+    });
+};
+
+function dailyWordChange(word) {
+    // on game load, do some comparisons that check a timer
+    // and if its zero, change current daily word
+    document.getElementById('daily_word').innerHTML = word
+}
+
+
+
+// Create user Data
 function createUserData() {
     let userID = randInt(0, 600000)
     let insertValues = new Map([
@@ -53,20 +87,6 @@ function createUserData() {
     }
 }
 
-// Saves current visuals after game has ended
-function saveEndGameVisuals() {
-    let charElements = document.getElementsByClassName('char')
-
-    for (let char = 0; char < charElements.length; char++) {
-        if (charElements[char].innerHTML) {
-            letterVisualsMap.set(char, [charElements[char].innerHTML, charElements[char].getAttribute('style')])
-        }
-    }
-
-    let jsonier = JSON.stringify(letterVisualsMap)
-    console.log(jsonier)
-}
-
 // Check and create user data
 function checkExistUserData() {
     if (!localStorage.getItem('user')) {
@@ -81,6 +101,24 @@ function updateUserData(storageItem, value) {
     localStorage.setItem(storageItem, value)
 }
 
+// Saves current visuals after game has ended
+function saveEndGameVisuals() {
+    let charElements = document.getElementsByClassName('char')
+
+    for (let char = 0; char < charElements.length; char++) {
+        if (charElements[char].innerHTML) {
+            letterVisualsMap.set(char, [charElements[char].innerHTML, charElements[char].getAttribute('style')])
+        }
+    }
+
+    let jsonier = JSON.stringify(letterVisualsMap)
+    console.log(jsonier)
+}
+
+
+// ##########################################################
+// #################### User Iteration ######################
+// ##########################################################
 
 function getKeyPress(currentKey) {
     /*
@@ -99,38 +137,6 @@ function getKeyPress(currentKey) {
         arr.push(current_char)
     }
 };
-
-/*
-Since the program has screen keyboards, some listeners and their respective
-functions are needed. Not 100% sure if listeners are needed for a project
-of this size, seemed a bit overkill to add listerners for single functions.
-Did it anyway, for practice.
-*/
-
-async function startCheck() {
-    let fullDate = new Date();
-    let currentTime = fullDate.getHours() + ":" + fullDate.getMinutes() + ":" + fullDate.getSeconds();
-
-    await new Promise((resolve, reject) => {
-        if (currentTime == '00:00:00') {
-            resolve(localStorage.setItem('game_state', 'active'))
-        }
-    });
-};
-
-async function rowGlowAnimate() {
-    /*
-    Didn't knew much about async/await and promises until I needed a way to use a timer. 
-    Figured out it was time to, at least, use some basic level of it.
-    */
-    let allChars = document.getElementsByClassName('char')
-
-    for (let char of allChars) {
-        await new Promise((resolve, reject) => setTimeout(resolve, 25))
-        char.style.animation = 'char_animation 0.7s ease-in-out 0s 2 alternate'
-    }
-};
-
 
 
 function addCharListener(classname, atrib) {
@@ -222,15 +228,10 @@ function keyPressAlpha(usrkey) {
     }
 };
 
-function dailyWordChange(word) {
-    // on game load, do some comparisons that check a timer
-    // and if its zero, change current daily word
-    document.getElementById('daily_word').innerHTML = word
-}
-
 
 
 document.addEventListener("DOMContentLoaded", startCheck, false);
+document.addEventListener("DOMContentLoaded", rowGlowAnimate, false);
 document.addEventListener("DOMContentLoaded", function () { addCharListener('keybutton', 'id') }, false);
 document.addEventListener("DOMContentLoaded", function () { delCharListener('del_elem') }, false);
 document.addEventListener("DOMContentLoaded", function () { checkWordListener('sub_elem') }, false);
@@ -239,7 +240,14 @@ document.addEventListener("DOMContentLoaded", function () { showStatsListener('s
 document.addEventListener('keyup', keyPressAlpha);
 document.addEventListener("DOMContentLoaded", checkExistUserData, false);
 document.addEventListener("DOMContentLoaded", function () { dailyWordChange('chato') }, false);
-document.addEventListener("DOMContentLoaded", rowGlowAnimate, false);
+document.addEventListener("DOMContentLoaded", function () { setInterval(showTimerDOM, 1000) }, false);
+
+
+
+// ##########################################################
+// ##################### Game Engine ########################
+// ##########################################################
+
 
 function populateInfo() {
     let htmlElements = document.getElementsByClassName('score_info_value')
@@ -265,6 +273,7 @@ function populateInfo() {
     }
 }
 
+// Main game 'engine'
 function subWord() {
     /*
     This function controls the main flow of the game and uses checkWord()
@@ -366,6 +375,7 @@ function subWord() {
     }
 };
 
+// Visuals
 function checkWord() {
     /*
     To declutter a bit of the subWord() function, did a separate one
@@ -408,7 +418,9 @@ function checkWord() {
     }
 };
 
-
+// ##########################################################
+// ################### Auxiliary Functions ##################
+// ##########################################################
 
 function isAlpha(word) {
     /*
