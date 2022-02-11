@@ -11,7 +11,7 @@ let arr = [];
 let tried_words = [];
 let word = 'panda';
 let style_arr = [];
-let letterVisualsMap = new Map()
+// let letterVisualsMap = new Map()
 
 // Little animation on opening 
 async function rowGlowAnimate() {
@@ -35,11 +35,16 @@ function currentTime() {
 function showTimerDOM() {
 
     let nowDate = new Date()
-    let countdownHour = 23 - parseInt(nowDate.getHours(), 10)
-    let countdownMinute = 59 - parseInt(nowDate.getMinutes(), 10)
-    let countdownSecond = 59 - parseInt(nowDate.getSeconds(), 10)
+    let hour = 23 - parseInt(nowDate.getHours(), 10)
+    let minute = 59 - parseInt(nowDate.getMinutes(), 10)
+    let second = 59 - parseInt(nowDate.getSeconds(), 10)
 
-    let fullcountdown = countdownHour + ":" + countdownMinute + ":" + countdownSecond
+    let hour_a = leadZerotime(hour)
+    let minute_a = leadZerotime(minute)
+    let second_a = leadZerotime(second)
+
+
+    let fullcountdown = hour_a + ":" + minute_a + ":" + second_a
 
 
     document.getElementById('countdown').innerHTML = fullcountdown
@@ -79,7 +84,8 @@ function createUserData() {
         ['row_3', 0],
         ['row_4', 0],
         ['row_5', 0],
-        ['game_state', 'active']
+        ['game_state', 'active'],
+        ['last_game_state', ''],
     ]);
 
     for (let values of insertValues) {
@@ -88,11 +94,23 @@ function createUserData() {
 }
 
 // Check and create user data
-function checkExistUserData() {
+async function checkExistUserData() {
     if (!localStorage.getItem('user')) {
         createUserData()
     } else {
-        console.log('Storage Exists')
+        // get last game results from saved localstorage
+        let get_states = JSON.parse(localStorage.getItem('last_game_state'))
+        let charElements = document.getElementsByClassName('char')
+
+        await new Promise((resolve, reject) => setTimeout(resolve, 2000))
+
+        for (let entry = 0; entry < Object.keys(get_states).length; entry++) {
+            await new Promise((resolve, reject) => setTimeout(resolve, 25))
+            charElements[entry].removeAttribute('style')
+            await new Promise((resolve, reject) => setTimeout(resolve, 25))
+            charElements[entry].setAttribute('style', get_states[entry][1])
+            charElements[entry].innerHTML = get_states[entry][0]
+        }
     }
 }
 
@@ -103,7 +121,10 @@ function updateUserData(storageItem, value) {
 
 // Saves current visuals after game has ended
 function saveEndGameVisuals() {
+    // needs to be async, to wait for glow animation to finish
+    // and to remove what glow animation left on style on html
     let charElements = document.getElementsByClassName('char')
+    let letterVisualsMap = new Map()
 
     for (let char = 0; char < charElements.length; char++) {
         if (charElements[char].innerHTML) {
@@ -111,8 +132,9 @@ function saveEndGameVisuals() {
         }
     }
 
-    let jsonier = JSON.stringify(letterVisualsMap)
-    console.log(jsonier)
+    let letterVisualsObj = Object.fromEntries(letterVisualsMap)
+    let jsonier = JSON.stringify(letterVisualsObj)
+    localStorage.setItem('last_game_state', jsonier)
 }
 
 
@@ -232,6 +254,7 @@ function keyPressAlpha(usrkey) {
 
 document.addEventListener("DOMContentLoaded", startCheck, false);
 document.addEventListener("DOMContentLoaded", rowGlowAnimate, false);
+// document.addEventListener("DOMContentLoaded", removeStyle, false);
 document.addEventListener("DOMContentLoaded", function () { addCharListener('keybutton', 'id') }, false);
 document.addEventListener("DOMContentLoaded", function () { delCharListener('del_elem') }, false);
 document.addEventListener("DOMContentLoaded", function () { checkWordListener('sub_elem') }, false);
@@ -278,18 +301,18 @@ function subWord() {
     /*
     This function controls the main flow of the game and uses checkWord()
     to process the visual part
-
+ 
     Why there is set of conditionals just for the last row:
-
+ 
     Game needs to know which row is the active one so it can populate the
     'tiles' with characters and it does so by looking at the 'active_row' variable. 
     Betweem rows 0 and 5, it works just fine. User tries to guess, it doesn't
     match the daily word and game skips to the next row by doing 'active_row++'.
-
+ 
     If the game is on the last row and we increment active_row it'll go
     out of range and break the function we use to populate tiles because it'll try
     to process a row that doesn't exists, returning an error.
-
+ 
     So the solution that I kinda of found out was to set those conditionals just for the
     last row that doesn't increment 'active_row' so the game can safely end without
     breaking anything.
@@ -422,6 +445,16 @@ function checkWord() {
 // ################### Auxiliary Functions ##################
 // ##########################################################
 
+function leadZerotime(zeroes) {
+    if (zeroes < 10) {
+        newzeroes = '0' + zeroes
+        return newzeroes
+    } else {
+        return zeroes
+    }
+}
+
+
 function isAlpha(word) {
     /*
     Re-inventing the wheel by creating a function that
@@ -471,5 +504,3 @@ function randInt(start, end) {
 
     return num
 }
-
-console.log(letterVisualsMap)

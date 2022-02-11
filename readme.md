@@ -10,28 +10,6 @@ colocada nos quadradinhos. Então eu parava e "ok, tenho que ler que letra o usa
 
 ## Info pra mim
 
-Terminei a parte do timer pro jogo resetar cada 24 horas. 
-Agora preciso fazer um timer pra dizer pro usuario quanto tempo até a proxima jogada.
+Terminei a parte do timer bonitinho e de salvar o estado do ultimo jogo
 
-Descobri uma função chamada setInterval(função, tempo), que ele executa uma função a cada tempo (em milisegundos)
-Se o tempo anda em segundos...um inetervalo de 1000ms, faz a função ser executada a cada segundo, ou seja, meio que
-um cronometro.
-
-E acho que consigo ver dois jeitos, que é primeiro a cada segundo a função pegar a hora local e ir exibindo quanto falta ou, ele pegar
-uma vez a hora e a cada vez que o setinterval chama a função, ele desconta 1 segundo, até chegar meia noite.
-
-Outra coisa que ainda falta fazer é salvar o estado do jogo até o proximo reset. Consigo salvar o estado dele (cores, letras) usando map, mas descobri que não dá pra enviar um map pro localstorage, só json. Agora o desafio é jsonisar um map ou criar um json com os negocios que quero salvar.
-
-
-Sobre o jogo carregar a palavra do dia: Vou usar beautifulsoup pra scrap a pagina especifica do dicio (que mostram palavras de 5 letras.
-Na hora de pegar a palavra, fazer um check se tem letras repetidas, pra ele pegar de novo
-
-
-
-
-
-
-
-
-
-
+Sobrou só o esquema do jogo pegar uma palavra random. Idéia, pelo que li, é usar um fetch api pq PARECE que ele funfa como beautifulsoup do python. Vamos ver.
