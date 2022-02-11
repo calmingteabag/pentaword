@@ -1,4 +1,3 @@
-
 // ##########################################################
 // #################### Basic Setup #########################
 // ##########################################################
@@ -11,10 +10,11 @@ let arr = [];
 let tried_words = [];
 let word = 'panda';
 let style_arr = [];
-// let letterVisualsMap = new Map()
 
-// Little animation on opening 
+
+
 async function rowGlowAnimate() {
+    // Little animation on opening 
     let allChars = document.getElementsByClassName('char')
 
     for (let char of allChars) {
@@ -23,16 +23,18 @@ async function rowGlowAnimate() {
     }
 };
 
-// Get current date
+
 function currentTime() {
+    // Get current date
     let fullDate = new Date();
     let currTime = fullDate.getHours() + ":" + fullDate.getMinutes() + ":" + fullDate.getSeconds();
 
     return currTime
 }
 
-// Show remaining time to next game
+
 function showTimerDOM() {
+    // Show remaining time to next game
 
     let nowDate = new Date()
     let hour = 23 - parseInt(nowDate.getHours(), 10)
@@ -50,11 +52,22 @@ function showTimerDOM() {
     document.getElementById('countdown').innerHTML = fullcountdown
 }
 
-// check if game is playable
+
 async function startCheck() {
+    // Check if game is playable
+    // Actually I can't do this kind of simple check (timer = 00:00:00) because 
+    // the game needs to be opened on user's end for it to catch 00:00:00
+    // Need another way to do this check
+
+    let currDate = new Date()
+    let currDay = currDate.getDate() // will return day 11 but we want it to reset as soon as day is changed
+    let nextDay = currDay++
 
     await new Promise((resolve, reject) => {
+
         if (currentTime() == '00:00:00') {
+
+
             resolve(localStorage.setItem('game_state', 'active'))
         }
     });
@@ -67,9 +80,8 @@ function dailyWordChange(word) {
 }
 
 
-
-// Create user Data
 function createUserData() {
+    // Create user Data
     let userID = randInt(0, 600000)
     let insertValues = new Map([
         ['user', userID],
@@ -93,8 +105,11 @@ function createUserData() {
     }
 }
 
-// Check and create user data
+
 async function checkExistUserData() {
+    // Check if user exists
+    // Create new if not, retrieve last game stat to show if yes
+
     if (!localStorage.getItem('user')) {
         createUserData()
     } else {
@@ -114,15 +129,16 @@ async function checkExistUserData() {
     }
 }
 
-// Update user data
+
 function updateUserData(storageItem, value) {
+    // Update user data
     localStorage.setItem(storageItem, value)
 }
 
-// Saves current visuals after game has ended
+
 function saveEndGameVisuals() {
-    // needs to be async, to wait for glow animation to finish
-    // and to remove what glow animation left on style on html
+    // Saves current 'state' of the game after game has ended, which means
+    // the visual part (characters entered and color)
     let charElements = document.getElementsByClassName('char')
     let letterVisualsMap = new Map()
 
@@ -143,9 +159,8 @@ function saveEndGameVisuals() {
 // ##########################################################
 
 function getKeyPress(currentKey) {
-    /*
-    Populates display as the user presses a key
-    */
+    //Populates display as the user presses a key
+
     const current_key = document.getElementById(currentKey)
     const current_char = current_key.textContent
 
@@ -191,9 +206,8 @@ function showStatsListener(statElement) {
 }
 
 function statToggle(toggleElement) {
-    /*
-    Show/Hides Stats
-    */
+    // Show/Hides stats when user clicks on (i)
+
     let viewToggle = document.getElementById(toggleElement)
     if (viewToggle.style.visibility == 'hidden') {
         showStat('score_wrapper')
@@ -203,12 +217,15 @@ function statToggle(toggleElement) {
 }
 
 function showStat(statElement) {
+    // When user clicks on (i) populates it with current statistics
     let show_stat = document.getElementById(statElement)
     populateInfo()
     show_stat.style.visibility = 'visible'
 }
 
 function closeStat(statElement) {
+    // Close statistics window. Styling to ensure that stat window will return
+    // to original state after a win or lose.
     let stat_window = document.getElementById(statElement)
     stat_window.style.visibility = 'hidden'
     document.getElementById('score_wrapper').style.backgroundColor = 'rgb(39, 39, 39)'
@@ -218,6 +235,8 @@ function closeStat(statElement) {
 }
 
 function delChar() {
+    // While user is trying a word, he should be able to delete chracters but
+    // only on current row.
     if (item_pos > 0 && localStorage.getItem('game_state') == 'active') {
         let curr_row = document.getElementsByClassName('row_try')[active_row]
         let curr_char = curr_row.getElementsByClassName('char')[item_pos - 1]
@@ -254,7 +273,6 @@ function keyPressAlpha(usrkey) {
 
 document.addEventListener("DOMContentLoaded", startCheck, false);
 document.addEventListener("DOMContentLoaded", rowGlowAnimate, false);
-// document.addEventListener("DOMContentLoaded", removeStyle, false);
 document.addEventListener("DOMContentLoaded", function () { addCharListener('keybutton', 'id') }, false);
 document.addEventListener("DOMContentLoaded", function () { delCharListener('del_elem') }, false);
 document.addEventListener("DOMContentLoaded", function () { checkWordListener('sub_elem') }, false);
@@ -273,16 +291,25 @@ document.addEventListener("DOMContentLoaded", function () { setInterval(showTime
 
 
 function populateInfo() {
+    // Grabs data to be used on showStat()
     let htmlElements = document.getElementsByClassName('score_info_value')
     let winRatio = (parseInt(localStorage.getItem('wonGames')) / parseInt(localStorage.getItem('playedGames')) * 100).toFixed(1)
     let updateElements = ['playedGames', 'winRatiodummy', 'currStreak', 'maxStreak']
 
     for (let i = 0; i < htmlElements.length; i++) {
+        /*
+        Ran into kind of a issue here. The idea is iterate either over DOM elements and update it with data
+        from localStorage or the reverse, iterate over localStorage and fill DOM elements. 'For of' loop over
+        htmlElements (4 elements) returned a blank result on second element ('winratio') because it is trying
+        to retrieve contents of variable winRatio on localStorage which doesn't exist. 
 
+        Tried the 'normal' for loop with incrementing indexes, ran into the same issue but found a workaround
+        that is manually set the value I needed on specific part of the loop (which was on second iteration).
+        */
         if (i == 1) {
+
             htmlElements[i].innerHTML = winRatio + '%'
-            i++ // makes getItem skip updateElements[1] which is a dummy element made to complete 4-element list, so
-            // the loop won't get the wrong elements
+            i++
         }
         htmlElements[i].innerHTML = localStorage.getItem(updateElements[i])
     }
@@ -398,12 +425,11 @@ function subWord() {
     }
 };
 
-// Visuals
+
 function checkWord() {
-    /*
-    To declutter a bit of the subWord() function, did a separate one
-    just to handle visuals.
-    */
+    // To declutter a bit of the subWord() function, did a separate one
+    // just to handle visuals.
+
     let check_pos = 0
     let daily_word_arr = word.toUpperCase().split('')
 
@@ -445,6 +471,7 @@ function checkWord() {
 // ################### Auxiliary Functions ##################
 // ##########################################################
 
+
 function leadZerotime(zeroes) {
     if (zeroes < 10) {
         newzeroes = '0' + zeroes
@@ -456,10 +483,6 @@ function leadZerotime(zeroes) {
 
 
 function isAlpha(word) {
-    /*
-    Re-inventing the wheel by creating a function that
-    is easily accessible if it was in python.
-    */
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
     for (let check of word) {
@@ -473,12 +496,6 @@ function isAlpha(word) {
 
 
 function compareArr(arr_a, arr_b) {
-    /*
-    Needed this to compare both arrays (user's and daily word). Could
-    have done in a different way using for(let i = 0, i < arr_a.length, i++)
-    decided to try this way to train myself.
-    */
-
     let iter = 0
 
     if (arr_a.length == 0) {
@@ -496,11 +513,9 @@ function compareArr(arr_a, arr_b) {
 };
 
 function randInt(start, end) {
-    /*
-    Re-inventing the wheel one more time.
-    */
     let percent = Math.random();
     let num = Math.floor(percent * (Math.floor(end) - Math.ceil(start) + 1) + start)
 
     return num
 }
+
