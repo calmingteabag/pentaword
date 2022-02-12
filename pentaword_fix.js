@@ -1,98 +1,12 @@
 // "Fixed version, less spaghetti"
 
-// Sets up current game data
-class GameData {
-    constructor(item_pos, active_row, arr, tried_words, word, style_arr,) {
-
-        this.item_pos = item_pos
-        this.active_row = active_row
-        this.arr = arr
-        this.tried_words = tried_words
-        this.word = word
-        this.style_arr = style_arr
-    }
-};
-
-// Creates user
-class UserData {
-    constructor(user, playedGames, wonGames, lostGames, currStreak,
-        maxStreak, row_0, row_1, row_2, row_3, row_4, row_5, game_state,
-        last_game_state, nextday) {
-        this.user = user
-        this.playedGames = playedGames
-        this.wonGames = wonGames
-        this.lostGames = lostGames
-        this.currStreak = currStreak
-        this.maxStreak = maxStreak
-        this.row_0 = row_0
-        this.row_1 = row_1
-        this.row_2 = row_2
-        this.row_3 = row_3
-        this.row_4 = row_4
-        this.row_5 = row_5
-        this.game_state = game_state
-        this.last_game_state = last_game_state
-        this.nextday = nextday
-    };
-
-    createUserData() {
-        let insertValues = new Map([
-            ['user', this.user],
-            ['playedGames', this.playedGames],
-            ['wonGames', this.wonGames],
-            ['lostGames', this.lostGames],
-            ['currStreak', this.currStreak],
-            ['maxStreak', this.maxStreak],
-            ['row_0', this.row_0],
-            ['row_1', this.row_1],
-            ['row_2', this.row_2],
-            ['row_3', this.row_3],
-            ['row_4', this.row_4],
-            ['row_5', this.row_5],
-            ['game_state', this.game_state],
-            ['last_game_state', this.last_game_state],
-            ['nextday', this.nextday],
-        ])
-
-        for (let values of insertValues) {
-            localStorage.setItem(values[0], values[1])
-        }
-
-    };
-
-    async checkExistUserData() {
-
-        let currDate = new DateAndTime()
-        let currDay = currDate.day // only needs current date, will return
-        // this from DateAndTime class
-
-        if (!localStorage.getItem('user')) {
-            this.createUserData()
-            localStorage.setItem('nexday', currDay + 1)
-        } else {
-            // get last game results from saved localstorage
-            let get_states = JSON.parse(localStorage.getItem('last_game_state'))
-            let charElements = document.getElementsByClassName('char')
-
-            await new Promise((resolve, reject) => setTimeout(resolve, 2000))
-
-            for (let entry = 0; entry < Object.keys(get_states).length; entry++) {
-                await new Promise((resolve, reject) => setTimeout(resolve, 25))
-                charElements[entry].removeAttribute('style')
-                await new Promise((resolve, reject) => setTimeout(resolve, 25))
-                charElements[entry].setAttribute('style', get_states[entry][1])
-                charElements[entry].innerHTML = get_states[entry][0]
-            }
-        }
-    }
-
-    randInt(start, end) {
-        let percent = Math.random();
-        let num = Math.floor(percent * (Math.floor(end) - Math.ceil(start) + 1) + start)
-
-        return num
-    };
-};
+// Sets up global variables
+let item_pos = 0;
+let active_row = 0;
+let arr = [];
+let tried_words = [];
+let word = 'panda';
+let style_arr = [];
 
 // Deals with date and time
 class DateAndTime {
@@ -117,6 +31,14 @@ class DateAndTime {
         this.countdown = fullCountDown
     };
 
+    returnDay() {
+        return this.day
+    }
+
+    returnFullTime() {
+        return this.fulltime
+    }
+
     leadZerotime(zeroes) {
         if (zeroes < 10) {
             let newzeroes = '0' + zeroes
@@ -127,46 +49,134 @@ class DateAndTime {
     };
 };
 
-
-// This class jave a method to get user pressed key and it needs to be added as a listener function.
-class UserIteration extends GameData {
-    constructor(item_pos, active_row, arr, tried_words, word, style_arr) {
-        super(item_pos, active_row, arr, tried_words, word, style_arr);
+// Start checks
+// Need to add a document.addeventlistener on the end of the .js file to call below class's method
+class StartChecks extends DateAndTime {
+    constructor() {
+        super();
+        let dateObj = new DateAndTime()
+        this.today = dateObj.returnDay()
     };
 
-    getKeyPress(currentKey) {
-        // Need to ultimately push a key to an instance of GameData array. Since we are first
-        // instancing that class, this class needed to magically know which name we used
-        // for that instancing for it to, for example, push to instanced arr. This will
-        // not work obviously. Game variables needs to be global, so I think there is no
-        // need for GameData class, just initialize those variables out of a class.
-
-        const current_key = document.getElementById(currentKey)
-        const current_char = current_key.textContent
-
-        if (item_pos < 5 && localStorage.getItem('game_state') == 'active') {
-
-            let rowlist = document.getElementsByClassName('row_try')[active_row];
-            let curr_char = rowlist.children;
-
-            curr_char[item_pos].innerHTML = current_char
-            item_pos++
-            arr.push(current_char)
-        }
+    async initGame() {
+        await new Promise((resolve, reject) => {
+            if (this.today == localStorage.getItem('nextday')) {
+                resolve(localStorage.setItem('game_state', 'active'))
+                resolve(localStorage.setItem('nextday', currDay++))
+            }
+        })
     };
 };
 
 
-let newgame = new UserIteration(0, 0, [], [], 'panda', [])
-console.log(newgame.word)
+class CreateUser {
+    constructor(user, playedGames, wonGames, lostGames, currStreak, maxStreak,
+        row_0, row_1, row_2, row_3, row_4, row_5, game_state, last_game_state, nextday) {
+        this.user = user
+        this.playedGames = playedGames
+        this.wonGames = wonGames
+        this.lostGames = lostGames
+        this.currStreak = currStreak
+        this.maxStreak = maxStreak
+        this.row_0 = row_0
+        this.row_1 = row_1
+        this.row_2 = row_2
+        this.row_3 = row_3
+        this.row_4 = row_4
+        this.row_5 = row_5
+        this.game_state = game_state
+        this.last_game_state = last_game_state
+        this.nextday = nextday
+    }
 
-// Game Instancing to initilize game variables
-// let gameRunData = new GameData(0, 0, [], [], 'panda', [])
-// console.log(gameRunData.arr)
-// gameRunData.arr.push('somevar')
-// console.log(gameRunData.arr)
+    createUserData() {
+        // Uses names defined on class constructor to be localstorage's variables
+        let userID = randInt(0, 60000)
+        let insertValues = new Map([
+            [this.user = userID],
+            [this.playedGames, 0],
+            [this.wonGames, 0],
+            [this.lostGames, 0],
+            [this.currStreak, 0],
+            [this.maxStreak, 0],
+            [this.row_0, 0],
+            [this.row_1, 0],
+            [this.row_2, 0],
+            [this.row_3, 0],
+            [this.row_4, 0],
+            [this.row_5, 0],
+            [this.game_state, 'active'],
+            [this.last_game_state, ''],
+            [this.nextday, ''],
+        ])
 
-// Time Instancing
-let gameTime = new DateAndTime()
-console.log(gameTime.countdown)
+        for (let value of insertValues) {
+            localStorage.setItem(value[0], value[1])
+        }
+    };
+};
+// User check
+// Need to add a document.addeventlistener on the end of the .js file to call below class's method
+class UserChecks extends CreateUser {
+
+    constructor(user, playedGames, wonGames, lostGames, currStreak, maxStreak,
+        row_0, row_1, row_2, row_3, row_4, row_5, game_state, last_game_state, nextday, classname, attrib_name) {
+        super(user, playedGames, wonGames, lostGames, currStreak, maxStreak,
+            row_0, row_1, row_2, row_3, row_4, row_5, game_state, last_game_state, nextday);
+
+        let dateObj = new Date()
+        this.today = dateObj.getDate()
+
+        this.classname = classname
+        this.attrib_name = attrib_name
+    };
+
+    async checkExistUserData() {
+        if (!localStorage.getItem(this.user)) {
+            this.createUserData()
+            // It's better to create a separate class to deal with user since this class constructor deals mainly with DOM
+            // It also needs to get some data from localstorage, but for the sake of organization, lets assume another class
+            // will set up the correct localstorage names and we're only using those names here instead of this.name. 
+
+            // something like
+            //
+            // new user = CreateUser() -> instantieate another class JUST to create user
+            // user.createuserdataorsomethinglikethis() ->sets up localstorage names
+            // or use super()
+            localStorage.setItem(this.nextday, this.today + 1) // might run into issue of js adding str to int, we'll see. this.local_nextday will be changed to
+            // localstorage name instead of this.name
+        } else {
+            // get last game results from saved localstorage
+            let get_states = JSON.parse(localStorage.getItem(this.last_game_state)) // this.local_lastgamsate will be changed to localstorage name instead of this.name
+            let charElements = document.getElementsByClassName(this.classname)
+
+            await new Promise((resolve, reject) => setTimeout(resolve, 2000))
+
+            for (let entry = 0; entry < Object.keys(get_states).length; entry++) {
+                await new Promise((resolve, reject) => setTimeout(resolve, 25))
+                charElements[entry].removeAttribute(this.attrib_name)
+                await new Promise((resolve, reject) => setTimeout(resolve, 25))
+                charElements[entry].setAttribute(this.attrib_name, get_states[entry][1])
+                charElements[entry].innerHTML = get_states[entry][0]
+            }
+        }
+    };
+
+    randInt(start, end) {
+        let percent = Math.random();
+        let num = Math.floor(percent * (Math.floor(end) - Math.ceil(start) + 1) + start)
+
+        return num
+    }
+
+};
+
+// constructor(local_user, local_nextday, local_lastgamestate, classname, attrib_name)
+
+// DOM Listeners
+let startCheckGame = new StartChecks()
+document.addEventListener("DOMContentLoaded", function () { startCheckGame.initGame() }, false);
+let userGame = new UserChecks('user', 'nexday', 'last_game_state', 'char', 'style')
+document.addEventListener("DOMContentLoaded", function () { userGame.checkExistUserData() }, false);
+
 
