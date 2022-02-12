@@ -55,6 +55,7 @@ function showTimerDOM() {
 
 async function startCheck() {
     // Check if game is playable
+
     // Actually I can't do this kind of simple check (timer = 00:00:00) because 
     // the game needs to be opened on user's end for it to catch 00:00:00
     // Need another way to do this check
@@ -65,9 +66,7 @@ async function startCheck() {
 
     await new Promise((resolve, reject) => {
 
-        if (currentTime() == '00:00:00') {
-
-
+        if (currDate.getDate() == localStorage.getItem('resetday')) {
             resolve(localStorage.setItem('game_state', 'active'))
         }
     });
@@ -98,6 +97,7 @@ function createUserData() {
         ['row_5', 0],
         ['game_state', 'active'],
         ['last_game_state', ''],
+        ['resetday', '']
     ]);
 
     for (let values of insertValues) {
