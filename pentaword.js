@@ -56,18 +56,14 @@ function showTimerDOM() {
 async function startCheck() {
     // Check if game is playable
 
-    // Actually I can't do this kind of simple check (timer = 00:00:00) because 
-    // the game needs to be opened on user's end for it to catch 00:00:00
-    // Need another way to do this check
-
     let currDate = new Date()
-    let currDay = currDate.getDate() // will return day 11 but we want it to reset as soon as day is changed
-    let nextDay = currDay++
+    let currDay = currDate.getDate()
 
     await new Promise((resolve, reject) => {
 
-        if (currDate.getDate() == localStorage.getItem('resetday')) {
+        if (currDate.getDate() == localStorage.getItem('nextday')) {
             resolve(localStorage.setItem('game_state', 'active'))
+            resolve(localStorage.setItem('nextday', currDay++))
         }
     });
 };
@@ -97,7 +93,7 @@ function createUserData() {
         ['row_5', 0],
         ['game_state', 'active'],
         ['last_game_state', ''],
-        ['resetday', '']
+        ['nextday', '']
     ]);
 
     for (let values of insertValues) {
@@ -109,9 +105,12 @@ function createUserData() {
 async function checkExistUserData() {
     // Check if user exists
     // Create new if not, retrieve last game stat to show if yes
+    let currDate = new Date()
+    let currDay = currDate.getDate()
 
     if (!localStorage.getItem('user')) {
         createUserData()
+        localStorage.setItem('nexday', currDay + 1)
     } else {
         // get last game results from saved localstorage
         let get_states = JSON.parse(localStorage.getItem('last_game_state'))
