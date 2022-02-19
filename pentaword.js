@@ -1,5 +1,5 @@
 // ##########################################################
-// #################### Basic Setup #########################
+// ################## Game Initialization ###################
 // ##########################################################
 
 // item_pos tracks the char position on a row
@@ -8,10 +8,15 @@ let item_pos = 0;
 let active_row = 0;
 let arr = [];
 let tried_words = [];
-let word = 'panda';
+let word = '';
 let style_arr = [];
 
 
+
+function getDailyWord() {
+    let dailyguess = document.getElementById('daily_word').textContent
+    word += dailyguess
+}
 
 async function rowGlowAnimate() {
     // Little animation on opening 
@@ -23,7 +28,6 @@ async function rowGlowAnimate() {
     }
 };
 
-
 function currentTime() {
     // Get current date
     let fullDate = new Date();
@@ -31,7 +35,6 @@ function currentTime() {
 
     return currTime
 }
-
 
 function showTimerDOM() {
     // Show remaining time to next game
@@ -52,28 +55,26 @@ function showTimerDOM() {
     document.getElementById('countdown').innerHTML = fullcountdown
 }
 
+// async function startCheck() {
+//     // Check if game is playable
 
-async function startCheck() {
-    // Check if game is playable
+//     let currDate = new Date()
+//     let currDay = currDate.getDate()
 
-    let currDate = new Date()
-    let currDay = currDate.getDate()
+//     await new Promise((resolve, reject) => {
 
-    await new Promise((resolve, reject) => {
 
-        if (currDate.getDate() == localStorage.getItem('nextday')) {
-            resolve(localStorage.setItem('game_state', 'active'))
-            resolve(localStorage.setItem('nextday', currDay++))
-        }
-    });
-};
-
-function dailyWordChange(word) {
-    // on game load, do some comparisons that check a timer
-    // and if its zero, change current daily word
-    document.getElementById('daily_word').innerHTML = word
-}
-
+//         if ((currDate.getDate() == localStorage.getItem('nextday')) && isLastMonthDay(currDay) == false) {
+//             resolve(localStorage.setItem('game_state', 'active'))
+//             resolve(localStorage.setItem('last_game_state', ''))
+//             resolve(localStorage.setItem('nextday', currDay++)) // needs rewrite to account for last day of the month and leap years
+//         } else if ((currDate.getDate() == localStorage.getItem('nextday')) && isLastMonthDay(currDay) == true) {
+//             resolve(localStorage.setItem('game_state', 'active'))
+//             resolve(localStorage.setItem('last_game_state', ''))
+//             resolve(localStorage.setItem('nextday', currDay = 0))
+//         }
+//     });
+// };
 
 function createUserData() {
     // Create user Data
@@ -101,17 +102,21 @@ function createUserData() {
     }
 }
 
-
 async function checkExistUserData() {
     // Check if user exists
     // Create new if not, retrieve last game stat to show if yes
     let currDate = new Date()
     let currDay = currDate.getDate()
 
-    if (!localStorage.getItem('user')) {
+    if (!localStorage.getItem('user') && isLastMonthDay(currDay) == true) {
         createUserData()
-        localStorage.setItem('nexday', currDay + 1)
+        localStorage.setItem('nexday', currDay = 0)
+
+    } else if (!localStorage.getItem('user') && isLastMonthDay(currDay) == false) {
+        createUserData()
+        localStorage.setItem('nexday', currDay++)
     } else {
+
         // get last game results from saved localstorage
         let get_states = JSON.parse(localStorage.getItem('last_game_state'))
         let charElements = document.getElementsByClassName('char')
@@ -128,12 +133,10 @@ async function checkExistUserData() {
     }
 }
 
-
 function updateUserData(storageItem, value) {
     // Update user data
     localStorage.setItem(storageItem, value)
 }
-
 
 function saveEndGameVisuals() {
     // Saves current 'state' of the game after game has ended, which means
@@ -152,10 +155,15 @@ function saveEndGameVisuals() {
     localStorage.setItem('last_game_state', jsonier)
 }
 
-
 // ##########################################################
 // #################### User Iteration ######################
 // ##########################################################
+
+function resetGambiarra() {
+    localStorage.setItem('last_game_state', '')
+    localStorage.setItem('game_state', 'active')
+    window.location.reload()
+};
 
 function getKeyPress(currentKey) {
     //Populates display as the user presses a key
@@ -173,7 +181,6 @@ function getKeyPress(currentKey) {
         arr.push(current_char)
     }
 };
-
 
 function addCharListener(classname, atrib) {
     let btn_elem = document.getElementsByClassName(classname)
@@ -204,6 +211,44 @@ function showStatsListener(statElement) {
     stat_listener.addEventListener("click", function () { statToggle('score_wrapper') }, false)
 }
 
+function helpCloseStatListener(helpElement) {
+    let exit_btn = document.getElementById(helpElement)
+    exit_btn.addEventListener("click", function () { helpClose('help_wrapper') }, false)
+}
+
+function helpShowStatsListener(helpStat) {
+    let stat_listener = document.getElementById(helpStat)
+    stat_listener.addEventListener("click", function () { helpToggle('help_wrapper') }, false)
+}
+
+function addGambiarraListener(gambiarra) {
+    let gambi = document.getElementById(gambiarra)
+    gambi.addEventListener("click", function () { resetGambiarra() }, false)
+}
+
+function helpToggle(helpElement) {
+    // Show/Hides help window
+
+    let helpToggle = document.getElementById(helpElement)
+    if (helpToggle.style.visibility == 'hidden') {
+        helpShow('help_wrapper')
+    } else {
+        helpClose('help_wrapper')
+    }
+}
+
+function helpShow(statElement) {
+    // When user clicks on (i) populates it with current statistics
+    let help_stat = document.getElementById(statElement)
+    help_stat.style.visibility = 'visible'
+}
+
+function helpClose(helpElement) {
+    // Close help window
+    let help_window = document.getElementById(helpElement)
+    help_window.style.visibility = 'hidden'
+}
+
 function statToggle(toggleElement) {
     // Show/Hides stats when user clicks on (i)
 
@@ -218,8 +263,17 @@ function statToggle(toggleElement) {
 function showStat(statElement) {
     // When user clicks on (i) populates it with current statistics
     let show_stat = document.getElementById(statElement)
+    let hide_word = document.getElementById('daily_word')
     populateInfo()
+
     show_stat.style.visibility = 'visible'
+
+    if (show_stat.style.visibility == 'visible' && localStorage.getItem('playedGames') == '0') {
+        hide_word.style.opacity = '0'
+    } else if (show_stat.style.visibility == 'visible' && localStorage.getItem('game_state') == 'active') {
+        hide_word.style.opacity = '0'
+    }
+
 }
 
 function closeStat(statElement) {
@@ -268,22 +322,6 @@ function keyPressAlpha(usrkey) {
     }
 };
 
-
-
-document.addEventListener("DOMContentLoaded", startCheck, false);
-document.addEventListener("DOMContentLoaded", rowGlowAnimate, false);
-document.addEventListener("DOMContentLoaded", function () { addCharListener('keybutton', 'id') }, false);
-document.addEventListener("DOMContentLoaded", function () { delCharListener('del_elem') }, false);
-document.addEventListener("DOMContentLoaded", function () { checkWordListener('sub_elem') }, false);
-document.addEventListener("DOMContentLoaded", function () { exitStatListener('exit_stats') }, false);
-document.addEventListener("DOMContentLoaded", function () { showStatsListener('show_stat') }, false);
-document.addEventListener('keyup', keyPressAlpha);
-document.addEventListener("DOMContentLoaded", checkExistUserData, false);
-document.addEventListener("DOMContentLoaded", function () { dailyWordChange('chato') }, false);
-document.addEventListener("DOMContentLoaded", function () { setInterval(showTimerDOM, 1000) }, false);
-
-
-
 // ##########################################################
 // ##################### Game Engine ########################
 // ##########################################################
@@ -301,13 +339,16 @@ function populateInfo() {
         from localStorage or the reverse, iterate over localStorage and fill DOM elements. 'For of' loop over
         htmlElements (4 elements) returned a blank result on second element ('winratio') because it is trying
         to retrieve contents of variable winRatio on localStorage which doesn't exist. 
-
+ 
         Tried the 'normal' for loop with incrementing indexes, ran into the same issue but found a workaround
         that is manually set the value I needed on specific part of the loop (which was on second iteration).
         */
-        if (i == 1) {
+        if (i == 1 && localStorage.getItem('wonGames') != '0') {
 
             htmlElements[i].innerHTML = winRatio + '%'
+            i++
+        } else if (i == 1 && localStorage.getItem('wonGames') == 0) {
+            htmlElements[i].innerHTML = '0.0' + '%'
             i++
         }
         htmlElements[i].innerHTML = localStorage.getItem(updateElements[i])
@@ -316,9 +357,20 @@ function populateInfo() {
     // histogram
     let fillElements = document.getElementsByClassName('score_info_graph_fill')
 
-    for (let col = 0; col < fillElements.length; col++) {
-        let winRatioColumn = parseInt(localStorage.getItem(`row_${col}`)) / parseInt(localStorage.getItem('wonGames')) * 100
-        fillElements[col].style.width = winRatioColumn.toFixed(2) + '%'
+    if (!localStorage.getItem('user')) {
+        for (let col = 0; col < fillElements.length; col++) {
+            fillElements[col].style.width = '0' + '%'
+        }
+    } else if (localStorage.getItem('wonGames') == '0') {
+        for (let col = 0; col < fillElements.length; col++) {
+            fillElements[col].style.width = '0' + '%'
+        }
+    } else {
+        for (let col = 0; col < fillElements.length; col++) {
+            // it fills the div with another div, and its width will be (localstorage's won rows/ totalwons) *100
+            let winRatioColumn = parseInt(localStorage.getItem(`row_${col}`)) / parseInt(localStorage.getItem('wonGames')) * 100
+            fillElements[col].style.width = winRatioColumn.toFixed(2) + '%'
+        }
     }
 }
 
@@ -369,12 +421,14 @@ function subWord() {
             localStorage.setItem('maxStreak', localStorage.getItem('currStreak'))
         }
 
+        document.getElementById('daily_word').style.opacity = '1'
         populateInfo()
         document.getElementById('score_wrapper').style.visibility = 'visible'
         document.getElementById('score_wrapper').style.backgroundColor = 'rgb(4, 29, 8)'
         document.getElementById('score_wrapper').style.borderColor = 'rgb(2, 255, 23)'
         document.getElementById('score_title').style.color = 'rgb(2, 255, 23)'
         document.getElementById('score_title').innerHTML = 'You got it!'
+
 
         // Right guess, row == last.
     } else if (active_row == 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == true && localStorage.getItem('game_state') == 'active') {
@@ -392,12 +446,15 @@ function subWord() {
         if (parseInt(localStorage.getItem('currStreak')) > parseInt(localStorage.getItem('maxStreak'))) {
             localStorage.setItem('maxStreak', localStorage.getItem('currStreak'))
         }
+
+        document.getElementById('daily_word').style.opacity = '1'
         populateInfo()
         document.getElementById('score_wrapper').style.visibility = 'visible'
         document.getElementById('score_wrapper').style.backgroundColor = 'rgb(4, 29, 8)'
         document.getElementById('score_wrapper').style.borderColor = 'rgb(2, 255, 23)'
         document.getElementById('score_title').style.color = 'rgb(2, 255, 23)'
         document.getElementById('score_title').innerHTML = 'You got it!'
+
 
         // Wrong guess, row == last.
     } else if (active_row == 5 && item_pos == 5 && compareArr(arr, dailyWordArr) == false && localStorage.getItem('game_state') == 'active') {
@@ -414,6 +471,7 @@ function subWord() {
 
         localStorage.setItem('currStreak', 0)
 
+        document.getElementById('daily_word').style.opacity = '1'
         populateInfo()
         document.getElementById('score_wrapper').style.visibility = 'visible'
         document.getElementById('score_wrapper').style.backgroundColor = 'rgb(24, 2, 2)'
@@ -421,9 +479,9 @@ function subWord() {
         document.getElementById('score_title').style.color = 'red'
         document.getElementById('score_title').innerHTML = 'Try again tomorrow'
 
+
     }
 };
-
 
 function checkWord() {
     // To declutter a bit of the subWord() function, did a separate one
@@ -431,35 +489,34 @@ function checkWord() {
 
     let check_pos = 0
     let daily_word_arr = word.toUpperCase().split('')
+    let check_row = document.getElementsByClassName('row_try')[active_row]
 
     for (let char of arr) {
 
         if (daily_word_arr.includes(char) && char == daily_word_arr[check_pos]) {
-            let check_row = document.getElementsByClassName('row_try')[active_row]
-            let current_letter = check_row.children[check_pos];
+            let letterDomElement = check_row.children[check_pos];
+            // need to color specific letter on screen keyboard.
+            // how tf i get it
 
-
-            current_letter.style.color = 'green';
-            current_letter.style.borderColor = '#00FF00';
+            letterDomElement.style.color = 'green';
+            letterDomElement.style.borderColor = '#00FF00';
             // would be nice if this effect worked only on current row
             // will think about it later
-            current_letter.style.animation = 'glow_lighten 1.5s ease-in-out infinite alternate'
+            letterDomElement.style.animation = 'glow_lighten 1.5s ease-in-out infinite alternate'
             check_pos++
 
         } else if (daily_word_arr.includes(char) && char != daily_word_arr[check_pos]) {
-            let check_row = document.getElementsByClassName('row_try')[active_row]
-            let current_letter = check_row.children[check_pos];
+            let letterDomElement = check_row.children[check_pos];
 
-            current_letter.style.color = 'yellow'
-            current_letter.style.borderColor = '#FFFF00';
+            letterDomElement.style.color = 'yellow'
+            letterDomElement.style.borderColor = '#FFFF00';
             check_pos++
 
         } else {
-            let check_row = document.getElementsByClassName('row_try')[active_row]
-            let current_letter = check_row.children[check_pos];
+            let letterDomElement = check_row.children[check_pos];
 
-            current_letter.style.color = 'red'
-            current_letter.style.borderColor = '#FF0000';
+            letterDomElement.style.color = 'red'
+            letterDomElement.style.borderColor = '#FF0000';
             check_pos++
 
         }
@@ -471,6 +528,38 @@ function checkWord() {
 // ##########################################################
 
 
+function isLastMonthDay(day) {
+    let currDate = new Date()
+    let currDay = currDate.getDate()
+    let currMonth = currDate.getMonth()
+    let currYear = currDate.getFullYear()
+    let evenmonth = [4, 6, 9, 11]
+
+
+    if (currDay == 31) {
+        return true
+    } else if (evenmonth.includes(currMonth) == true && currDay == 30) {
+        return true
+    } else if ((leapYear(currYear) == false) && (currMonth == 2) && (currDay == 28)) {
+        return true
+    } else if ((leapYear(currYear) == true) && (currMonth == 2) && (currDay == 29)) {
+        return true
+    } else {
+        return false
+    }
+}
+// if returns true, means its last day, so target variable should be set to 0
+
+function leapYear(year) {
+    if ((!year % 100) && (year % 4 == 0)) {
+        return true
+    } else if ((year % 100 == 0) && (year % 400 == 0)) {
+        return true
+    } else {
+        return false
+    }
+};
+
 function leadZerotime(zeroes) {
     if (zeroes < 10) {
         newzeroes = '0' + zeroes
@@ -479,7 +568,6 @@ function leadZerotime(zeroes) {
         return zeroes
     }
 }
-
 
 function isAlpha(word) {
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
@@ -492,7 +580,6 @@ function isAlpha(word) {
         }
     }
 };
-
 
 function compareArr(arr_a, arr_b) {
     let iter = 0
@@ -517,3 +604,19 @@ function randInt(start, end) {
 
     return num
 }
+
+// document.addEventListener("DOMContentLoaded", startCheck, false);
+document.addEventListener("DOMContentLoaded", rowGlowAnimate, false);
+document.addEventListener("DOMContentLoaded", function () { addCharListener('keybutton', 'id') }, false);
+document.addEventListener("DOMContentLoaded", function () { delCharListener('del_elem') }, false);
+document.addEventListener("DOMContentLoaded", function () { checkWordListener('sub_elem') }, false);
+document.addEventListener("DOMContentLoaded", function () { exitStatListener('exit_stats') }, false);
+document.addEventListener("DOMContentLoaded", function () { showStatsListener('show_stat') }, false);
+document.addEventListener("DOMContentLoaded", function () { helpCloseStatListener('btn_exit_help') }, false);
+document.addEventListener("DOMContentLoaded", function () { helpShowStatsListener('show_help') }, false);
+document.addEventListener('keyup', keyPressAlpha);
+document.addEventListener("DOMContentLoaded", checkExistUserData, false);
+document.addEventListener("DOMContentLoaded", function () { setInterval(showTimerDOM, 1000) }, false);
+document.addEventListener("DOMContentLoaded", getDailyWord, false);
+document.addEventListener("DOMContentLoaded", function () { addGambiarraListener('title_gambiarra') })
+
